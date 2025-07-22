@@ -6,12 +6,10 @@
     <title>Login</title>
 </head>
 <body>
-    <h2>Login Page</h2>
     <form action="login" method="post">
-        <h5>Username:</h5>  <input type="text" name="username" required /><br/>
-        <h5>Password:</h5> <input type="password" name="password" required /><br/>
-        <input type="submit" value="Login" />
-        <p style="color:red">${error}</p>
-    </form>
+    Email: <input type="email" name="email" required><br>
+    Password: <input type="password" name="password" required><br>
+    <button type="submit">Login</button>
+</form>
 </body>
 </html>

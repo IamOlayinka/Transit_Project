@@ -1,3 +1,4 @@
+package Serverlet;
 
 
 import java.io.IOException;
@@ -7,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import Dao.UserDAO;
+import model.User;
 
 /**
  * Servlet implementation class login
@@ -35,24 +39,20 @@ public class login extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 
-	protected void doPost(HttpServletRequest req, HttpServletResponse res)
-	            throws ServletException, IOException {
-	        
-	        String username = req.getParameter("username");
-	        String password = req.getParameter("password");
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
 
-	        // Dummy authentication logic
-	        if ("admin".equals(username) && "1234".equals(password)) {
-	            // Success → store user info and redirect to landing page
-	            HttpSession session = req.getSession();
-	            session.setAttribute("username", username);
-	            res.sendRedirect("landing.jsp");
-	        } else {
-	            // Failure → show error message
-	            req.setAttribute("error", "Invalid credentials!");
-	            req.getRequestDispatcher("login.jsp").forward(req, res);
-	        }
-	    }
+        User user = new UserDAO().login(email, password);
+
+        if (user != null) {
+            HttpSession session = req.getSession();
+            session.setAttribute("user", user);
+            res.sendRedirect("dashboard.jsp");
+        } else {
+            res.sendRedirect("login.jsp?error=1");
+        }
+    }
 
 
 }
