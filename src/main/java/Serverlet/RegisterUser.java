@@ -7,28 +7,28 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Dao.UserDAO;
+import DTOs.UserDTO;
+import DaoImpl.UserDaoImp;
 import model.User;
 
 /**
  * Servlet implementation class Register
  */
 @WebServlet("/register")
-public class Register extends HttpServlet {
+public class RegisterUser extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         String userType = req.getParameter("user_type");
 
-        User user = new User.UserBuilder()
-                .setName(name)
-                .setEmail(email)
-                .setPassword(password)
-                .setUserType(userType)
-                .build();
-
-        boolean success = new UserDAO().registerUser(user);
+        UserDTO user = new UserDTO();
+                user.setName(name);
+                user.setEmail(email);
+                user.setPassword(password);
+                user.setUserType(userType);
+                
+        boolean success = new UserDaoImp().registerUser(user);
         res.sendRedirect(success ? "login.jsp" : "register.jsp?error=1");
     }
 }

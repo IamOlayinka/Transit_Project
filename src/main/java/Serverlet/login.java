@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Dao.UserDAO;
+import DTOs.UserDTO;
+import DaoImpl.UserDaoImp;
 import model.User;
 
 /**
@@ -43,12 +44,12 @@ public class login extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        User user = new UserDAO().login(email, password);
+        UserDTO user = new UserDaoImp().login(email, password);
 
         if (user != null) {
             HttpSession session = req.getSession();
             session.setAttribute("user", user);
-            res.sendRedirect("dashboard.jsp");
+            res.sendRedirect("index.jsp");
         } else {
             res.sendRedirect("login.jsp?error=1");
         }

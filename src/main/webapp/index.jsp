@@ -1,8 +1,10 @@
 
 <!-- landing.jsp -->
 <%@ page session="true" %>
+<%@ page import="DTOs.UserDTO" %>
+
 <%
-    String user = (String) session.getAttribute("username");
+UserDTO user = (UserDTO) session.getAttribute("user");
     if (user == null) {
         response.sendRedirect("login.jsp");
         return;
@@ -29,7 +31,7 @@
         }
     </style>
 <body>
-    <h1>Welcome, <%= user %>!</h1>
+    <h1>Welcome, <%= user.getName() %>!</h1>
     <p>This is your landing page.</p>
 </body>
 </html>
