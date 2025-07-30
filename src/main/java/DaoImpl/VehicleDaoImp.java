@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,6 +128,15 @@ public class VehicleDaoImp implements VehicleDao {
 			        return false;
 			    }
 			}
+
+		public int countVehicles() {
+			 String sql = "SELECT COUNT(*) FROM vehicles";
+			    try (Connection conn = Datasource.getConnection(); Statement stmt = conn.createStatement()) {
+			        ResultSet rs = stmt.executeQuery(sql);
+			        if (rs.next()) return rs.getInt(1);
+			    } catch (SQLException e) { e.printStackTrace(); }
+			    return 0;
+		}
 			
 
 

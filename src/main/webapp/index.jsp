@@ -1,5 +1,6 @@
 
 <!-- landing.jsp -->
+<%@ include file="header.jsp" %>
 <%@ page session="true" %>
 <%@ page import="DTOs.UserDTO" %>
 

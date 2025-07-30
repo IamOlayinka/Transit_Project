@@ -11,4 +11,5 @@ public interface VehicleDao {
 	Vehicle getVehicleById(int id);
 	boolean updateVehicle(Vehicle v);
 	boolean deleteVehicle(int id);
+	int countVehicles();
 }
