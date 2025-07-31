@@ -20,7 +20,7 @@ public class RegisterUser extends HttpServlet {
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        String userType = req.getParameter("user_type");
+        String userType = req.getParameter("role");
 
         UserDTO user = new UserDTO();
                 user.setName(name);

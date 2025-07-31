@@ -46,10 +46,13 @@ public class login extends HttpServlet {
 
         UserDTO user = new UserDaoImp().login(email, password);
 
+        
         if (user != null) {
             HttpSession session = req.getSession();
             session.setAttribute("user", user);
             res.sendRedirect("index.jsp");
+            String role = user.getUserType();
+            session.setAttribute("role", role);
         } else {
             res.sendRedirect("login.jsp?error=1");
         }

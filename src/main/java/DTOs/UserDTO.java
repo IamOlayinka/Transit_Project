@@ -1,7 +1,5 @@
 package DTOs;
 
-import model.User;
-
 public class UserDTO {
 	
         private int id;
