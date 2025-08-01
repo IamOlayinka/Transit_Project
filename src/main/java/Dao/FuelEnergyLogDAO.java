@@ -1,6 +1,7 @@
 package Dao;
 
 import java.util.List;
+import java.util.Map;
 
 import DTOs.FuelEnergyLog;
 
@@ -14,4 +15,5 @@ public interface FuelEnergyLogDAO {
 	FuelEnergyLog getLogById(int id);
 	FuelEnergyLog getLatestLogByVehicle(int vehicleId);
 	int countLogs();
+	Map<Integer, List<FuelEnergyLog>> getLogsGroupedByVehicle();
 }

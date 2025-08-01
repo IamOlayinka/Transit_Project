@@ -1,5 +1,9 @@
 package DaoImpl;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import DTOs.VehicleMaintenanceHistory;
 import Dao.VehicleMaintenanceHistoryDAO;
@@ -31,6 +35,35 @@ public class VehicleMaintenanceHistoryDAOImpl implements VehicleMaintenanceHisto
             e.printStackTrace();
         }
         return null;
+    }
+    @Override
+    public Map<Integer, List<VehicleMaintenanceHistory>> getHistoryGroupedByVehicle() {
+        Map<Integer, List<VehicleMaintenanceHistory>> grouped = new HashMap<>();
+
+        String sql = "SELECT * FROM vehicle_maintenance_history ORDER BY vehicle_id, maintenance_date";
+
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                VehicleMaintenanceHistory history = new VehicleMaintenanceHistory();
+                history.setId(rs.getInt("id"));
+                history.setVehicleId(rs.getInt("vehicle_id"));
+                history.setMaintenanceDate(rs.getTimestamp("maintenance_date").toLocalDateTime());
+                history.setRecommendation(rs.getString("recommendation"));
+                history.setStrategyUsed(rs.getString("strategy_used"));
+                history.setStatus(rs.getString("status"));
+
+                int vehicleId = history.getVehicleId();
+                grouped.computeIfAbsent(vehicleId, k -> new ArrayList<>()).add(history);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return grouped;
     }
 
     @Override

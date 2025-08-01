@@ -158,16 +158,6 @@
         </table>
     </div>
 
-    <!-- Quick Links -->
-    <div>
-        <div class="section-title">📁 Quick Links</div>
-        <ul class="quick-links">
-            <li><a href="viewFuelEnergyLogs.jsp">View Fuel Logs</a></li>
-            <li><a href="fuelEnergyLogForm.jsp">Add Fuel Log</a></li>
-            <li><a href="ViewMaintenanceScheduleServlet">Maintenance Schedule</a></li>
-            <li><a href="predictMaintenance.jsp">Run Maintenance Prediction</a></li>
-        </ul>
-    </div>
-</div>
+
 
 <%@ include file="footer.jsp" %>

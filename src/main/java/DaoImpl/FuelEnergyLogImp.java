@@ -1,5 +1,6 @@
 package DaoImpl;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,10 +8,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import DTOs.FuelEnergyLog;
 import Dao.FuelEnergyLogDAO;
+import Observer.EmailFuelObserver;
+import Observer.FuelLogSubject;
+import Observer.LowFuelAlertObserver;
 import dataaccessLayer.Datasource;
 
 
@@ -19,16 +25,31 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
     @Override
     public boolean addFuelEnergyLog(FuelEnergyLog log) {
         String sql = "INSERT INTO fuel_energy_logs (vehicle_id, log_date, fuel_consumed, energy_consumed, mileage, notes) VALUES (?, ?, ?, ?, ?, ?)";
+
         try (Connection conn = Datasource.getConnection();
-            
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setInt(1, log.getVehicleId());
             ps.setTimestamp(2, Timestamp.valueOf(log.getLogDate()));
             ps.setBigDecimal(3, log.getFuelConsumed());
             ps.setBigDecimal(4, log.getEnergyConsumed());
             ps.setBigDecimal(5, log.getMileage());
             ps.setString(6, log.getNotes());
-            return ps.executeUpdate() > 0;
+
+            boolean success = ps.executeUpdate() > 0;
+
+            // ✅ Notify observers only if insert succeeded
+            if (success) {
+                FuelLogSubject subject = new FuelLogSubject();
+                subject.register(new LowFuelAlertObserver());
+                subject.register(new EmailFuelObserver());
+                // Register more observers here if needed
+
+                subject.notifyObservers(log);
+            }
+
+            return success;
+
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -156,7 +177,41 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
         }
         return 0;
     }
+ 
+    @Override
+    public Map<Integer, List<FuelEnergyLog>> getLogsGroupedByVehicle() {
+        Map<Integer, List<FuelEnergyLog>> groupedLogs = new HashMap<>();
 
+        String sql = "SELECT * FROM fuel_energy_log ORDER BY vehicle_id, log_date";
+
+        try (Connection conn = Datasource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                FuelEnergyLog log = new FuelEnergyLog();
+              
+                log.setId(rs.getInt("id"));
+                log.setVehicleId(rs.getInt("vehicle_id"));
+                log.setLogDate(rs.getTimestamp("log_date").toLocalDateTime());
+                
+                log.setFuelConsumed(rs.getBigDecimal("fuel_consumed"));
+                log.setEnergyConsumed(rs.getBigDecimal("energy_consumed"));
+                log.setMileage(rs.getBigDecimal("mileage"));
+                log.setNotes(rs.getString("notes"));
+
+                int vehicleId = log.getVehicleId();
+                groupedLogs.computeIfAbsent(vehicleId, k -> new ArrayList<>()).add(log);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return groupedLogs;
+    }
+
+    
     private FuelEnergyLog mapResultSetToLog(ResultSet rs) throws SQLException {
         FuelEnergyLog log = new FuelEnergyLog();
         log.setId(rs.getInt("id"));
