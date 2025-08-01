@@ -51,6 +51,18 @@
     %>
 </table>
 
+<h3>📄 Reports</h3>
+<ul>
+    <li><a href="GenerateReportServlet?type=fuel">Fuel Usage Report</a></li>
+    <li><a href="GenerateReportServlet?type=maintenance">Maintenance Summary Report</a></li>
+    <li><a href="GenerateReportServlet?type=fuel">View Fuel Report</a></li>
+    <li><a href="GenerateReportServlet?type=maintenance">View Maintenance Report</a></li>
+    <li><a href="ExportCSVServlet?type=fuel">Export Fuel Report to CSV</a></li>
+    <li><a href="ExportCSVServlet?type=maintenance">Export Maintenance Report to CSV</a></li>
+    <li><a href="ExportCSVServlet?type=fuel">Download Fuel Report (.csv)</a></li>
+    <li><a href="ExportCSVServlet?type=maintenance">Download Maintenance Report (.csv)</a></li>
+</ul>
+
 <!-- Shortcuts -->
 <h3 style="margin-top: 40px;">📁 Quick Links</h3>
 <ul>
@@ -58,6 +70,7 @@
     <li><a href="fuelEnergyLogForm.jsp">Add Fuel Log</a></li>
     <li><a href="ViewMaintenanceScheduleServlet">Maintenance Schedule</a></li>
     <li><a href="predictMaintenance.jsp">Run Maintenance Prediction</a></li>
+    
 </ul>
 
 <%@ include file="footer.jsp" %>

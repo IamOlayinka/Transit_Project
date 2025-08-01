@@ -8,8 +8,36 @@ public class VehicleMaintenanceHistory {
     private LocalDateTime maintenanceDate;
     private Double mileageAtService;
     private String notes;
+    private String recommendation;  
+    private String strategyUsed;
+    private String status;
+
+    public String getStrategyUsed() {
+        return strategyUsed;
+    }
+
+    public void setStrategyUsed(String strategyUsed) {
+        this.strategyUsed = strategyUsed;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
 
     // Getters and setters
+    public String getRecommendation() {
+        return recommendation;
+    }
+
+    public void setRecommendation(String recommendation) {
+        this.recommendation = recommendation;
+    }
+
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
