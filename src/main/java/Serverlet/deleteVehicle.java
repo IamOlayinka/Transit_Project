@@ -25,7 +25,12 @@ public class deleteVehicle extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-    
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, IOException {
+    	
+    	
+    }
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
 
@@ -55,7 +60,7 @@ public class deleteVehicle extends HttpServlet {
             session.setAttribute("message", "Failed to delete vehicle.");
         }
 
-        res.sendRedirect("vehicleList");
+        res.sendRedirect("VehicleList");
     }
 
 }
