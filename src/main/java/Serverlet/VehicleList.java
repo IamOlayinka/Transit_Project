@@ -16,7 +16,7 @@ import model.Vehicle;
 /**
  * Servlet implementation class VehicleList
  */
-@WebServlet("/vehicleList")
+@WebServlet("/VehicleList")
 public class VehicleList extends HttpServlet {
 	    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 	        VehicleDaoImp dao = new VehicleDaoImp();

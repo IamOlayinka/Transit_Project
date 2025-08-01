@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 <%@ page import="model.Vehicle" %>
 <%@ page import="java.util.List" %>
+<%@ page import="DTOs.UserDTO" %>
 
 <!DOCTYPE html>
 <html>
@@ -48,6 +47,7 @@
     </style>
 </head>
 <body>
+<%@ include file="header.jsp" %>
 
 <h2>Registered Vehicles</h2>
 
@@ -95,11 +95,19 @@
         <td>
             <a class="button" href="editVehicle?id=<%= v.getId() %>">Edit</a>
             <a class="button" href="deleteVehicle?id=<%= v.getId() %>" onclick="return confirm('Are you sure?')">Delete</a>
+            <%
+            UserDTO user = (UserDTO) session.getAttribute("user");
+            if(user != null && "Manager".equalsIgnoreCase(user.getUserType())) {
+            %>
+            <a href="registerVehicle.jsp" class="button">Add New Vehicle</a>  
+            
         </td>
     </tr>
     <%
             }
-        } else {
+        }
+        } 
+        else {
     %>
     <tr><td colspan="8">No vehicles found.</td></tr>
     <%
