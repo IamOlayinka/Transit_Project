@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import Command.GenerateReportCommand;
 import Command.ReportCommand;
 import Command.ReportInvoker;
+import Command.EmailReportCommand;
 import SimpleFactory.Report;
 import SimpleFactory.ReportFactory;
 
@@ -31,10 +32,19 @@ public class GenerateReportServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String type = req.getParameter("type");
+        String email = req.getParameter("email");
 
         try {
-            Report report = ReportFactory.createReport(type);  // from earlier
+            Report report = ReportFactory.createReport(type); // from earlier
+            
             ReportCommand command = new GenerateReportCommand(report);
+            
+            if (email != null && !email.trim().isEmpty()) {
+                command = new EmailReportCommand(report, email);
+            } else {
+                command = new GenerateReportCommand(report);
+            }
+            
             ReportInvoker invoker = new ReportInvoker();
             invoker.setCommand(command);
 

@@ -147,7 +147,7 @@
             <a href="DashboardServlet">Dashboard</a>
             <a href="ViewFuelEnergyLogsServlet">Fuel Logs</a>
             <a href="ViewMaintenanceScheduleServlet">Maintenance</a>
-            <a href="PredictMaintenanceServlet">Predict Maintenance</a>
+            <a href="predictMaintenance.jsp">Predict Maintenance</a>
             <a href="VehicleList">Vehicles</a>
         </nav>
         

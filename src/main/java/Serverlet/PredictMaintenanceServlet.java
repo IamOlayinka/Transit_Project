@@ -26,8 +26,25 @@ public class PredictMaintenanceServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String strategyType = req.getParameter("strategy"); // e.g. "mileage" or "fuel"
+        String strategyType = req.getParameter("strategy");
+        System.out.println("Submitted strategy: " + strategyType);
+        System.out.println("Request URI: " + req.getRequestURI());
+        System.out.println("Query String: " + req.getQueryString());
+        System.out.println("strategyType = " + strategyType);
+
+// e.g. "mileage" or "fuel"
+        
+        if (strategyType == null || strategyType.trim().isEmpty()) {
+        	resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing or invalid strategy type");
+        	return;
+        }
+        
         MaintenanceStrategy strategy = MaintenanceStrategySelector.getStrategy(strategyType);
+        
+        if (strategy == null) {
+        	resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unsupported Strategy Type");
+        	return;
+        }
 
         List<FuelEnergyLog> logs = logDAO.getAllLogs();
         Map<FuelEnergyLog, String> predictions = new LinkedHashMap<>();
