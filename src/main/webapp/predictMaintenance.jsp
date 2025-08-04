@@ -49,8 +49,8 @@
         }
 
         input[type="submit"] {
-            background-color: #00FFFF;
-            color: black;
+            background-color: #007bff;
+            color: white;
             font-weight: bold;
             padding: 10px 18px;
             font-size: 15px;
@@ -61,7 +61,7 @@
         }
 
         input[type="submit"]:hover {
-            background-color: #00FFFF;
+			background-color: #0056b3;
         }
 
         table {
@@ -77,8 +77,8 @@
         }
 
         th {
-            background-color: #00FFFF;
-            color: black;
+            background-color: #007bff;
+            color: white;
         }
 
         tr:nth-child(even) {

@@ -11,7 +11,7 @@ public class MaintenanceStrategySelector {
     	case "fuel":
     		return new FuelUsageMaintenanceStrategy();
     	
-    	case "mileae":
+    	case "mileage":
     		return new MileageBasedMaintenanceStrategy();
     	default:
     		  throw new IllegalArgumentException("Unknown strategy type: " + type);

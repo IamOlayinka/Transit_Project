@@ -168,7 +168,7 @@
         }
     %>
 </table>
-<a class="add-log-link" href="GpsLogForm.jsp">Add New Log</a>
+<a class="add-log-link" href="AddGpsLogServlet">Add New Log</a>
 
     
 </body>
