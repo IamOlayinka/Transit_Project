@@ -3,54 +3,41 @@ package Serverlet;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 
 import DaoImpl.VehicleDaoImp;
+import DTOs.UserDTO;
 
-/**
- * Servlet implementation class deleteVehicle
- */
 @WebServlet("/deleteVehicle")
 public class deleteVehicle extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public deleteVehicle() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-    	
-    	
-    }
-    protected void doGet(HttpServletRequest req, HttpServletResponse res)
-            throws ServletException, IOException {
 
         HttpSession session = req.getSession(false);
-        
         if (session == null || session.getAttribute("user") == null) {
             res.sendRedirect("login.jsp");
             return;
         }
 
-        DTOs.UserDTO user = (DTOs.UserDTO) session.getAttribute("user");
+        UserDTO user = (UserDTO) session.getAttribute("user");
 
-        // Check if user is a Manager
         if (!"Manager".equalsIgnoreCase(user.getUserType())) {
             res.sendRedirect("vehicleList?error=unauthorized");
             return;
         }
+        int id = 0;
+        
+        
+        try {
+            id = Integer.parseInt(req.getParameter("id").trim());
+        } catch (NumberFormatException e) {
+            session.setAttribute("message", "Invalid vehicle ID.");
+            res.sendRedirect("VehicleList");
+            return;
+        }
 
-        // Proceed with deletion
-        int id = Integer.parseInt(req.getParameter("id"));
         VehicleDaoImp dao = new VehicleDaoImp();
         boolean deleted = dao.deleteVehicle(id);
 
@@ -62,5 +49,11 @@ public class deleteVehicle extends HttpServlet {
 
         res.sendRedirect("VehicleList");
     }
-
+    
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, IOException {
+        // Optional: Forward GET to POST or disallow GET requests to delete
+        res.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Use POST to delete vehicles.");
+    }
 }

@@ -1,11 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Login</title>
-        <style>
-        /* Unified styles for both login and registration pages */
+    <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f0f2f5;
@@ -16,7 +14,7 @@
             margin: 0;
         }
 
-        .form-container { /* Using a generic class name */
+        .form-container {
             background-color: #ffffff;
             padding: 2rem;
             border-radius: 8px;
@@ -44,7 +42,6 @@
             font-weight: 500;
         }
 
-        /* Style for all input fields */
         input[type="text"],
         input[type="email"],
         input[type="password"],
@@ -57,7 +54,7 @@
             box-sizing: border-box;
             font-size: 1rem;
         }
-        
+
         input:focus,
         select:focus {
             outline: none;
@@ -76,16 +73,15 @@
             transition: background-color 0.2s;
         }
 
-        /* Specific button color for registration */
         .login-button {
-            background-color: #00FFFF; /* Green */
+            background-color: #1877f2;
         }
 
         .login-button:hover {
             background-color: #00b7c2;
         }
 
-        .bottom-link { /* Generic class for bottom link */
+        .bottom-link {
             text-align: center;
             margin-top: 1rem;
             font-size: 0.9rem;
@@ -99,19 +95,39 @@
         .bottom-link a:hover {
             text-decoration: underline;
         }
+
+        .success-msg {
+            text-align: center;
+            color: green;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body>
-	<div class="form-container">
-		<h1>Login</h1>
-    	<form action="login" method="post">
-    		Email: <input type="email" name="email" required><br>
-    		Password: <input type="password" name="password" required><br>
-    		<button type="submit" class="login-button">Login</button><br>
-		</form>
+
+    <div class="form-container">
+        <h1>Login</h1>
+
+       <%
+            String logout = request.getParameter("logout");
+            if ("1".equals(logout)) {
+        %>
+            <div class="success-msg">You have successfully logged out.</div>
+        <%
+            }
+        %>
+       
+
+        <form action="${pageContext.request.contextPath}/login"  method="post">
+            Email: <input type="email" name="email" required><br>
+            Password: <input type="password" name="password" required><br>
+            <button type="submit" class="login-button">Login</button><br>
+        </form>
+
         <div class="bottom-link">
             <p>Don't have an account? <a href="register.jsp">Click here to register</a></p>
         </div>
     </div>
+
 </body>
 </html>
