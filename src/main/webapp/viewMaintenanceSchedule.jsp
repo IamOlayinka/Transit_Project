@@ -111,13 +111,11 @@
 
 <table>
     <tr>
-        <th>ID</th>
         <th>Vehicle ID</th>
         <th>Predicted Date</th>
         <th>Strategy</th>
         <th>Recommendation</th>
         <th>Status</th>
-        <th>Actions</th>
     </tr>
 
     <%
@@ -126,7 +124,6 @@
             for (MaintenanceSchedule m : schedules) {
     %>
     <tr>
-        <td><%= m.getId() %></td>
         <td><%= m.getVehicleId() %></td>
         <td><%= m.getPredictedDate() %></td>
         <td><%= m.getStrategyUsed() %></td>
@@ -143,7 +140,7 @@
             <form action="DeleteMaintenanceServlet" method="post" style="display:inline;">
                 <input type="hidden" name="id" value="<%= m.getId() %>">
                 <input type="submit" class="btn btn-delete" value="Delete">
-            </form>
+            </form>s
         </td>
     </tr>
     <%

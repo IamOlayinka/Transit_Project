@@ -44,6 +44,10 @@
         a.button:hover {
             background-color: #0056b3;
         }
+        
+        .addnew{
+        margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -94,12 +98,16 @@
         <td><%= v.getAssignedRoute() %></td>
         <td>
             <a class="button" href="editVehicle?id=<%= v.getId() %>">Edit</a>
-            <a class="button" href="deleteVehicle?id=<%= v.getId() %>" onclick="return confirm('Are you sure?')">Delete</a>
+            <form action="deleteVehicle" method="post" style="display:inline;">
+            <input type="hidden" name="id" value="<%= v.getId() %>"/>
+           <button class="button" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+    </form>
+            
             <%
             UserDTO user = (UserDTO) session.getAttribute("user");
             if(user != null && "Manager".equalsIgnoreCase(user.getUserType())) {
             %>
-            <a href="registerVehicle.jsp" class="button">Add New Vehicle</a>  
+            
             
         </td>
     </tr>
@@ -114,6 +122,9 @@
         }
     %>
 </table>
-
+<div class="addnew">
+<a href="registerVehicle.jsp" class="button">Add New Vehicle</a>  
+</div>
+    
 </body>
 </html>

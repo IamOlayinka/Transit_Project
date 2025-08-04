@@ -14,10 +14,11 @@ public class MaintenanceScheduleDAOImpl implements MaintenanceScheduleDAO {
         
         try (Connection conn = Datasource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, schedule.getVehicleId());
-            ps.setObject(2, schedule.getPredictedDate());
+        	ps.setInt(1, schedule.getVehicleId());
+            ps.setTimestamp(2, Timestamp.valueOf(schedule.getPredictedDate()));
             ps.setString(3, schedule.getRecommendation());
             ps.setString(4, schedule.getStrategyUsed());
+            ps.setString(5, schedule.getStatus());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -133,6 +134,34 @@ public class MaintenanceScheduleDAOImpl implements MaintenanceScheduleDAO {
         return list;
     }
 
+    @Override
+    public List<MaintenanceSchedule> getAllSchedules() {
+        List<MaintenanceSchedule> schedules = new ArrayList<>();
+
+        String sql = "SELECT * FROM maintenance_schedule ORDER BY predicted_date ASC";
+
+        try (Connection conn = Datasource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                MaintenanceSchedule schedule = new MaintenanceSchedule();
+                schedule.setId(rs.getInt("id"));
+                schedule.setVehicleId(rs.getInt("vehicle_id"));
+                schedule.setPredictedDate(rs.getTimestamp("predicted_date").toLocalDateTime());
+                schedule.setRecommendation(rs.getString("recommendation"));
+                schedule.setStrategyUsed(rs.getString("strategy_used"));
+                schedule.setStatus(rs.getString("status"));
+
+                schedules.add(schedule);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return schedules;
+    }
 
 
 	
