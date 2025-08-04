@@ -23,10 +23,10 @@
 			class="container d-flex justify-content-between align-items-center">
 			<h1 class="h4 mb-0">PTFMS</h1>
 			<nav>
-				<a href="#home" class="text-white me-3">Home</a> <a href="#about"
-					class="text-white me-3">About</a> <a href="#services"
-					class="text-white me-3">Services</a> <a href="#contact"
-					class="text-white">Contact</a>
+				<a href="#home" class="text-white me-3">Home</a> 
+				<a href="about.jsp" class="text-white me-3">About Us</a> 
+				<a href="#services" class="text-white me-3">Services</a> 
+				<a href="#contact" class="text-white">Contact</a> 
 			</nav>
 		</div>
 	</header>
@@ -41,15 +41,6 @@
 		</div>
 	</section>
 
-	<!-- About Section -->
-	<section class="p-5" id="about">
-		<div class="container">
-			<h3 class="text-center">About Us</h3>
-			<p class="text-center">We provide world-class transportation
-				services to connect logistics partners.</p>
-		</div>
-	</section>
-
 	<!-- Services Section -->
 	<section class="bg-light p-5" id="services">
 		<div class="container">
@@ -58,7 +49,7 @@
 				<div class="col-md-4">
 					<i class="fas fa-truck fa-3x mb-3"></i>
 					<h5>Transportation</h5>
-					<p>Transportation accross North America.</p>
+					<p>Transportation across North America.</p>
 				</div>
 				<div class="col-md-4">
 					<i class="fas fa-box-open fa-3x mb-3"></i>
@@ -70,7 +61,7 @@
 					<h5>Expedited Shipping</h5>
 					<p>On-time delivery with real-time tracking.</p>
 				</div>
-			</div>
+			</div> 
 		</div>
 	</section>
 
