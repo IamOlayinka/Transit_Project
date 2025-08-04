@@ -155,7 +155,7 @@
     %>
 </table>
 
-<a class="add-maintenance-link" href="fuelEnergyLogForm.jsp">Add New Log</a>
+<a class="add-maintenance-link" href="maintenanceLogForm.jsp">Add New Log</a>
 
 </body>
 </html>

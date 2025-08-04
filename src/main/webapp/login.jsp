@@ -78,7 +78,7 @@
         }
 
         .login-button:hover {
-            background-color: #00008B;
+            background-color: #00b7c2;
         }
 
         .bottom-link {

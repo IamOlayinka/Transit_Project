@@ -168,6 +168,36 @@
 </table>
 
 <a class="add-log-link" href="fuelEnergyLogForm.jsp">Add New Log</a>
+    <br><br>
+<h2>Email Fuel Usage Report</h2>
+
+<form action="GenerateReportServlet" method="get">
+    <label for="selectedLogId">Select Log Record:</label>
+    <select name="logId" id="selectedLogId" required>
+        <option value="" disabled selected>Select a log</option>
+        <%
+            if (logs != null && !logs.isEmpty()) {
+                for (FuelEnergyLog log : logs) {
+        %>
+        <option value="<%= log.getId() %>">
+            Vehicle ID: <%= log.getVehicleId() %>, Date: <%= log.getLogDate() %>
+        </option>
+        <%
+                }
+            }
+        %>
+    </select>
+
+    <br><br>
+    <label for="email">Recipient Email:</label>
+    <input type="email" name="email" placeholder="example@email.com" required>
+
+    <input type="hidden" name="type" value="fuel"> 
+
+    <br><br>
+    <input type="submit" value="Email Report">
+</form>
+
 
 </body>
 </html>

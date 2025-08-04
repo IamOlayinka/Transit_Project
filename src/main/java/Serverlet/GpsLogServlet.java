@@ -33,8 +33,16 @@ public class GpsLogServlet extends HttpServlet {
         // Get list of all vehicles (later: filter by operator-assigned if needed)
         VehicleDaoImp dao = new VehicleDaoImp();
         List<Vehicle> vehicles = dao.getAllVehicles();
+        
+        GpsLogImp gpsDao = new GpsLogImp();
+        List<GpsLog> logs = gpsDao.getAllLogs();
+
+        System.out.println("Getting vehicles...");
+        System.out.println("User in session: " + user);
+        System.out.println("Vehicle count: " + (vehicles != null ? vehicles.size() : "null"));
 
         req.setAttribute("vehicles", vehicles);
+        req.setAttribute("logs", logs);
         req.getRequestDispatcher("gpslog.jsp").forward(req, res);
     }
 
