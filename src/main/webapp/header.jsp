@@ -149,10 +149,11 @@
             <a href="ViewMaintenanceScheduleServlet">Maintenance</a>
             <a href="predictMaintenance.jsp">Predict Maintenance</a>
             <a href="VehicleList">Vehicles</a>
+            <a href="Reports.jsp" >Reports</a>
             <a href="gpslog.jsp">GPS Tracking</a>
         </nav>
         
-        <a href="login.jsp" class="logout-btn">Logout</a>
+        <a href="logout" class="logout-btn">Logout</a>
     </div>
 </body>
 </html>

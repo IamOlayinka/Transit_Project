@@ -2,19 +2,19 @@ package Strategy;
 
 public class MaintenanceStrategySelector {
     public static MaintenanceStrategy getStrategy(String type) {
+
+    	if (type == null) throw new IllegalArgumentException("Type cannot be null");
     	
-    	 if (type == null || type.trim().isEmpty()) {
-             // Throw an exception because 'type' is a mandatory parameter
-             throw new IllegalArgumentException("Maintenance strategy type cannot be null or empty.");
-         }
-    	
-    	switch(type){
+    	switch(type.toLowerCase()){
     	case "interval":
     	    return new IntervalBasedMaintenanceStrategy();
     	case "fuel":
     		return new FuelUsageMaintenanceStrategy();
-    	default: 
-    		throw new IllegalArgumentException("Unknown maintenance strategy type: " + type);
+    	
+    	case "mileae":
+    		return new MileageBasedMaintenanceStrategy();
+    	default:
+    		  throw new IllegalArgumentException("Unknown strategy type: " + type);
     	}
 }
 }
