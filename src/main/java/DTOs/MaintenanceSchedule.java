@@ -34,4 +34,6 @@ public class MaintenanceSchedule {
 
     public String getStrategyUsed() { return strategyUsed; }
     public void setStrategyUsed(String strategyUsed) { this.strategyUsed = strategyUsed; }
+    
+    
 }

@@ -2,6 +2,7 @@ package Strategy;
 
 public class MaintenanceStrategySelector {
     public static MaintenanceStrategy getStrategy(String type) {
+
     	if (type == null) throw new IllegalArgumentException("Type cannot be null");
     	
     	switch(type.toLowerCase()){
