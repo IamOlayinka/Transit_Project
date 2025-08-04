@@ -111,13 +111,11 @@
 
 <table>
     <tr>
-        <th>ID</th>
         <th>Vehicle ID</th>
         <th>Predicted Date</th>
         <th>Strategy</th>
         <th>Recommendation</th>
         <th>Status</th>
-        <th>Actions</th>
     </tr>
 
     <%
@@ -126,7 +124,6 @@
             for (MaintenanceSchedule m : schedules) {
     %>
     <tr>
-        <td><%= m.getId() %></td>
         <td><%= m.getVehicleId() %></td>
         <td><%= m.getPredictedDate() %></td>
         <td><%= m.getStrategyUsed() %></td>
@@ -158,7 +155,7 @@
     %>
 </table>
 
-<a class="add-maintenance-link" href="fuelEnergyLogForm.jsp">Add New Log</a>
+<a class="add-maintenance-link" href="maintenanceLogForm.jsp">Add New Log</a>
 
 </body>
 </html>

@@ -16,18 +16,28 @@ import DaoImpl.FuelEnergyLogImp;
 import Strategy.MaintenanceStrategy;
 import Strategy.MaintenanceStrategySelector;
 
-/**
- * Servlet implementation class PredictMaintenanceServlet
- */
 @WebServlet("/PredictMaintenanceServlet")
 public class PredictMaintenanceServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private final FuelEnergyLogImp logDAO = new FuelEnergyLogImp();
+    private static final long serialVersionUID = 1L;
+    private final FuelEnergyLogImp logDAO = new FuelEnergyLogImp();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String strategyType = req.getParameter("strategy"); // e.g. "mileage" or "fuel"
-        MaintenanceStrategy strategy = MaintenanceStrategySelector.getStrategy(strategyType);
+
+       
+        if (strategyType == null || strategyType.trim().isEmpty()) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing 'strategy' parameter (e.g., mileage or fuel)");
+            return;
+        }
+
+        MaintenanceStrategy strategy;
+        try {
+            strategy = MaintenanceStrategySelector.getStrategy(strategyType);
+        } catch (IllegalArgumentException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid strategy: " + strategyType);
+            return;
+        }
 
         List<FuelEnergyLog> logs = logDAO.getAllLogs();
         Map<FuelEnergyLog, String> predictions = new LinkedHashMap<>();
@@ -40,5 +50,4 @@ public class PredictMaintenanceServlet extends HttpServlet {
         req.setAttribute("strategyUsed", strategyType);
         req.getRequestDispatcher("predictMaintenance.jsp").forward(req, resp);
     }
-
 }

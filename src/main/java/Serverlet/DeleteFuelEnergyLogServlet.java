@@ -26,7 +26,7 @@ public class DeleteFuelEnergyLogServlet extends HttpServlet {
     private FuelEnergyLogImp fuelEnergyLogDAO = new FuelEnergyLogImp();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             int logId = Integer.parseInt(req.getParameter("id"));
             boolean deleted = fuelEnergyLogDAO.deleteFuelEnergyLog(logId);
