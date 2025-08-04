@@ -140,7 +140,7 @@
             <form action="DeleteMaintenanceServlet" method="post" style="display:inline;">
                 <input type="hidden" name="id" value="<%= m.getId() %>">
                 <input type="submit" class="btn btn-delete" value="Delete">
-            </form>s
+            </form>
         </td>
     </tr>
     <%

@@ -14,7 +14,6 @@
 <classpathentry kind="lib" path="C:/CST8284 Eclipse Workspace/Transit_Project/lib/mysql-connector-j-9.3.0.jar"/>
 		<attributes>
 			<attribute name="module" value="true"/>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="build/classes"/>

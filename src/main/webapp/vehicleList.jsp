@@ -7,46 +7,147 @@
 <head>
     <meta charset="UTF-8">
     <title>Registered Vehicles</title>
+
     <style>
         body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 30px;
+            background-color: #f8f9fa;
+            color: #333;
         }
 
-        h2 {
-            text-align: center;
+        h2, h3 {
+            color: #2c3e50;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 500;
+        }
+
+        input[type="number"],
+        input[type="email"] {
+            padding: 6px;
+            width: 200px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            padding: 6px 14px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
         }
 
         table {
-            border-collapse: collapse;
             width: 100%;
+            border-collapse: collapse;
+            background: white;
             margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         th, td {
-            padding: 10px;
-            border: 1px solid #ccc;
+            padding: 12px 15px;
+            border: 1px solid #dee2e6;
             text-align: center;
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #e9ecef;
         }
 
-        a.button {
-            background-color: #007BFF;
-            color: white;
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .action-links a {
+            display: inline-block;
             padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 500;
             text-decoration: none;
+            margin: 2px;
+            color: white;
+        }
+
+        .btn-edit {
+            background-color: #17a2b8;
+        }
+
+        .btn-edit:hover {
+            background-color: #117a8b;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+        }
+
+        .btn-delete:hover {
+            background-color: #a71d2a;
+        }
+
+        .notice {
+            margin-top: 10px;
+            color: green;
+        }
+
+        .clear-link {
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+		.btn {
+		    display: inline-block;
+		    padding: 6px 10px;
+		    border-radius: 4px;
+		    font-size: 0.9rem;
+		    font-weight: 500;
+		    text-decoration: none;
+		    margin: 2px;
+		    color: white;
+		    border: none;
+		    cursor: pointer;
+		}
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        select {
+            padding: 6px;
             border-radius: 4px;
         }
 
-        a.button:hover {
-            background-color: #0056b3;
-        }
-        
-        .addnew{
-        margin-top: 20px;
+        .responsive-table {
+            overflow-x: auto;
         }
     </style>
 </head>
@@ -96,18 +197,17 @@
         <td><%= v.getConsumptionRate() %></td>
         <td><%= v.getMaxPassengers() %></td>
         <td><%= v.getAssignedRoute() %></td>
-        <td>
-            <a class="button" href="editVehicle?id=<%= v.getId() %>">Edit</a>
-            <form action="deleteVehicle" method="post" style="display:inline;">
-            <input type="hidden" name="id" value="<%= v.getId() %>"/>
-           <button class="button" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
-    </form>
-            
+		<td>
+	    <a class="btn btn-edit" href="editVehicle?id=<%= v.getId() %>">Edit</a>
+	
+	    <form action="deleteVehicle" method="post" style="display:inline;">
+	        <input type="hidden" name="id" value="<%= v.getId() %>"/>
+	        <button class="btn btn-delete" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+	    </form>
             <%
             UserDTO user = (UserDTO) session.getAttribute("user");
             if(user != null && "Manager".equalsIgnoreCase(user.getUserType())) {
             %>
-            
             
         </td>
     </tr>
@@ -123,7 +223,7 @@
     %>
 </table>
 <div class="addnew">
-<a href="registerVehicle.jsp" class="button">Add New Vehicle</a>  
+<a href="registerVehicle.jsp" class="btn btn-primary">Add New Vehicle</a>
 </div>
     
 </body>

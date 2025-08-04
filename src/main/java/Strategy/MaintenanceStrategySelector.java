@@ -16,7 +16,5 @@ switch(type.toLowerCase()){
     default:
         throw new IllegalArgumentException("Unknown maintenance strategy type: " + type);
 }
-
-    	}
 }
 }

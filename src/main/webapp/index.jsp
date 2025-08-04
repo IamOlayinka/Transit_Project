@@ -1,11 +1,7 @@
-
-<!-- landing.jsp -->
-<%@ include file="header.jsp" %>
 <%@ page session="true" %>
 <%@ page import="DTOs.UserDTO" %>
-
 <%
-UserDTO user = (UserDTO) session.getAttribute("user");
+    UserDTO user = (UserDTO) session.getAttribute("user");
     if (user == null) {
         response.sendRedirect("login.jsp");
         return;
@@ -14,183 +10,101 @@ UserDTO user = (UserDTO) session.getAttribute("user");
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Welcome</title>
     <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        body {
             margin: 0;
             padding: 0;
-            background-color: #f7f9fa;
-            color: #333;
-        }
-        
-        .header {
-            background-color: #fff;
-            border-bottom: 1px solid #e9ecef;
-            padding: 1rem 2rem;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #f0f4ff, #d4e1ff);
+            min-height: 100vh;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: #6c757d;
-            font-weight: 500;
-            padding: 0.5rem 0;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: #007bff;
-            border-bottom-color: #007bff;
-        }
-        
-        .logo-section h2 {
-            color: #333;
-            margin: 0;
-            font-weight: 600;
-        }
-        
-        .logout-btn {
-            background-color: #007bff;
-            color: white;
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.3s ease;
-        }
-        
-        .logout-btn:hover {
-            background-color: #0056b3;
-        }
-        
-        .main-content {
-            display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: calc(100vh - 100px);
-            padding: 2rem;
         }
-        
-        .welcome-card {
+
+        .container {
             background: white;
-            padding: 3rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 60px 50px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            max-width: 700px;
             text-align: center;
-            max-width: 500px;
-            width: 100%;
+            animation: fadeIn 1s ease;
         }
-        
-        .welcome-card h1 {
-            color: #333;
+
+        h1 {
             font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            font-weight: 400;
+            color: #333;
+            margin-bottom: 1rem;
         }
-        
+
         .user-name {
+            font-size: 2.8rem;
+            font-weight: bold;
             color: #007bff;
-            font-weight: 600;
         }
-        
-        .welcome-card p {
-            color: #6c757d;
+
+        p {
             font-size: 1.1rem;
-            margin-bottom: 2rem;
-            line-height: 1.6;
+            color: #555;
+            margin: 1.5rem 0;
         }
-        
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
+
         .btn {
-            padding: 0.75rem 1.5rem;
-            text-decoration: none;
+            padding: 14px 28px;
+            border: none;
             border-radius: 6px;
+            font-size: 1rem;
             font-weight: 500;
+            cursor: pointer;
             transition: all 0.3s ease;
-            border: 2px solid transparent;
+            margin: 0 10px;
+            text-decoration: none;
         }
-        
+
         .btn-primary {
             background-color: #007bff;
             color: white;
         }
-        
+
         .btn-primary:hover {
             background-color: #0056b3;
-            transform: translateY(-1px);
         }
-        
+
         .btn-outline {
             background-color: transparent;
             color: #007bff;
-            border-color: #007bff;
+            border: 2px solid #007bff;
         }
-        
+
         .btn-outline:hover {
             background-color: #007bff;
             color: white;
         }
-        
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
             }
-            
-            .nav-links {
-                gap: 1rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .welcome-card {
-                padding: 2rem;
-                margin: 1rem;
-            }
-            
-            .welcome-card h1 {
+            h1, .user-name {
                 font-size: 2rem;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            a
-            .btn {
-                width: 200px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="main-content">
-        <div class="welcome-card">
-            <h1>Welcome</h1>
-             <h1><span class="user-name"><%= user.getName() %></span>!</h1>
-        </div>
+    <div class="container">
+        <h1>Welcome Back,</h1>
+        <div class="user-name"><%= user.getName() %></div><br><br>
+        <a href="DashboardServlet" class="btn btn-primary">Go to Dashboard</a>
+        <a href="logout" class="btn btn-outline">Logout</a>
     </div>
 </body>
 </html>
