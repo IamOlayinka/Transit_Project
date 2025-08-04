@@ -20,7 +20,7 @@ UserDTO user = (UserDTO) session.getAttribute("user");
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             margin: 0;
             padding: 0;
-            background-color: #f8f9fa;
+            background-color: #f7f9fa;
             color: #333;
         }
         
@@ -188,8 +188,8 @@ UserDTO user = (UserDTO) session.getAttribute("user");
 <body>
     <div class="main-content">
         <div class="welcome-card">
-            <h1>Welcome, <span class="user-name"><%= user.getName() %></span>!</h1>
-            <p>This is your landing page.</p>
+            <h1>Welcome</h1>
+             <h1><span class="user-name"><%= user.getName() %></span>!</h1>
         </div>
     </div>
 </body>

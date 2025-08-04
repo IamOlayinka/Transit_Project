@@ -78,11 +78,11 @@
 
         /* Specific button color for registration */
         .login-button {
-            background-color: #1877f2; /* Green */
+            background-color: #00FFFF; /* Green */
         }
 
         .login-button:hover {
-            background-color: #00008B;
+            background-color: #00b7c2;
         }
 
         .bottom-link { /* Generic class for bottom link */
