@@ -24,9 +24,6 @@ public class UserDTO {
         public void setUserType(String userType) {
         	this.userType = userType; 
         	}
-
-       
-        // Getters...
         public int getId() { return id; }
         public String getName() { return name; }
         public String getEmail() { return email; }

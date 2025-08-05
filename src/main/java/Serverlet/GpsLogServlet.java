@@ -27,8 +27,10 @@ public class GpsLogServlet extends HttpServlet {
         UserDTO user = (UserDTO) session.getAttribute("user");
 
         
-        if (user == null || !"Operator".equalsIgnoreCase(user.getUserType())) {
-            res.sendRedirect("login.jsp");
+        if (user == null || !"Manager".equalsIgnoreCase(user.getUserType())) {
+            if (session != null) {
+                session.setAttribute("errorMessage", "Please log in as a Manager to access this feature.");
+            }  
             return;
         }
 
@@ -45,6 +47,6 @@ public class GpsLogServlet extends HttpServlet {
                 ? "GPS log saved successfully."
                 : "Failed to save GPS log.");
 
-        res.sendRedirect("gpslog.jsp");
+        res.sendRedirect("AddGpsLogServlet");
     }
 }

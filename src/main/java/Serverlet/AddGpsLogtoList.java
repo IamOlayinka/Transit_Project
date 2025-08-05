@@ -18,16 +18,16 @@ import DaoImpl.VehicleDaoImp;
 import model.Vehicle;
 
 /**
- * Servlet implementation class AddGpsLogServlet
+ * Servlet implementation class AddGpsLogtoList
  */
-@WebServlet("/AddGpsLogServlet")
-public class AddGpsLogServlet extends HttpServlet {
+@WebServlet("/AddGpsLogtoList")
+public class AddGpsLogtoList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddGpsLogServlet() {
+    public AddGpsLogtoList() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,7 +35,7 @@ public class AddGpsLogServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	    HttpSession session = req.getSession(false);
 	    UserDTO user = (UserDTO) session.getAttribute("user");
@@ -53,8 +53,13 @@ public class AddGpsLogServlet extends HttpServlet {
 	
 	    req.setAttribute("vehicles", vehicles != null ? vehicles : new ArrayList<>());
 	    req.setAttribute("logs", logs != null ? logs : new ArrayList<>());
-	    req.getRequestDispatcher("gpslog.jsp").forward(req, res);
+	    req.getRequestDispatcher("GpsLogForm.jsp").forward(req, res);
 	}
 
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	
 
 }

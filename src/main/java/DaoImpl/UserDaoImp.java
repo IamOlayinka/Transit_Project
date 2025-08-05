@@ -18,7 +18,7 @@ public class UserDaoImp {
             stmt.setString(4, user.getUserType());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace(); // You should log this properly
+            e.printStackTrace(); 
             return false;
         }
     }
@@ -50,5 +50,21 @@ public class UserDaoImp {
         }
         return null;
     }
+    public boolean emailExists(String email) {
+        String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
+        try (Connection conn = Datasource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }
 
