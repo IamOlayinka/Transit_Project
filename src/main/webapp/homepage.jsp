@@ -23,10 +23,10 @@
 			class="container d-flex justify-content-between align-items-center">
 			<h1 class="h4 mb-0">PTFMS</h1>
 			<nav>
-				<a href="#home" class="text-white me-3">Home</a> 
-				<a href="about.jsp" class="text-white me-3">About Us</a> 
-				<a href="#services" class="text-white me-3">Services</a> 
-				<a href="#contact" class="text-white">Contact</a> 
+				<a href="#home" class="text-white me-3">Home</a> <a href="about.jsp"
+					class="text-white me-3">About Us</a> <a href="#services"
+					class="text-white me-3">Services</a> <a href="#contact"
+					class="text-white">Contact</a>
 			</nav>
 		</div>
 	</header>
@@ -61,7 +61,7 @@
 					<h5>Expedited Shipping</h5>
 					<p>On-time delivery with real-time tracking.</p>
 				</div>
-			</div> 
+			</div>
 		</div>
 	</section>
 
