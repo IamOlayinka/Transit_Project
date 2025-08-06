@@ -99,7 +99,7 @@
     </style>
 </head>
 <body>
-<%@ include file="header.jsp" %>
+<%@ include file="transitManagerHeader.jsp" %>
 <div class="main-wrapper">
 <h2>Predictive Maintenance</h2>
 

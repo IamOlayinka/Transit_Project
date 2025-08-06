@@ -12,4 +12,5 @@ public interface VehicleDao {
 	boolean updateVehicle(Vehicle v);
 	boolean deleteVehicle(int id);
 	int countVehicles();
+//	String getAssignedUserName(int id);
 }

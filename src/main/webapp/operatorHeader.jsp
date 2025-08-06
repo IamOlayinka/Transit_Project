@@ -146,9 +146,8 @@
         	<a href="index.jsp">Home</a>
             <a href="DashboardServlet">Dashboard</a>
             <a href="ViewFuelEnergyLogsServlet">Fuel Logs</a>
-            <a href="ViewMaintenanceScheduleServlet">Maintenance</a>
-            <a href="predictMaintenance.jsp">Predict Maintenance</a>
-            <a href="VehicleList">Vehicles</a>
+            <a href="gpslog.jsp">Break Logs</a>
+            <a href="MyVehicles">My Vehicle</a>
         </nav>
         
         <a href="login.jsp" class="logout-btn">Logout</a>

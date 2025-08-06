@@ -12,7 +12,7 @@ public class GpsLogImp implements GpsLogDao {
 
 	 public boolean saveGpsLog(GpsLog log) {
 	        String sql = "INSERT INTO gps_logs (vehicle_id, station_name, arrival_time, departure_time, logged_by) VALUES (?, ?, ?, ?, ?)";
-	        try (Connection conn = Datasource.getConnection();
+	        try (Connection conn = Datasource.getInstance().getConnection();
 	             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
 	            stmt.setInt(1, log.getVehicleId());

@@ -106,7 +106,7 @@
     </style>
 </head>
 <body>
-<%@ include file="header.jsp" %>
+<%@ include file="transitManagerHeader.jsp" %>
 <h2>Upcoming Maintenance Schedule</h2>
 
 <table>

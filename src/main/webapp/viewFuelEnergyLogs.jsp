@@ -1,6 +1,9 @@
 
 <%@ page import="java.util.List" %>
 <%@ page import="DTOs.FuelEnergyLog" %>
+<%@ page session="true" %>
+<%@ page import="DTOs.UserDTO" %>
+
 
 <html>
 <head>
@@ -106,7 +109,23 @@
     </style>
 </head>
 <body>
-    <%@ include file="header.jsp" %>
+    <%
+	UserDTO user = (UserDTO) session.getAttribute("user");
+	if (user == null) {
+	    response.sendRedirect("login.jsp");
+	    return;
+	}
+	String role = user.getUserType(); 
+	if ("Manager".equals(role)) {
+	%>
+	    <jsp:include page="transitManagerHeader.jsp" />
+	<%
+	} else if ("Operator".equals(role)) {
+	%>
+	    <jsp:include page="operatorHeader.jsp" />
+	<%
+	}
+	%>
 <h2>Fuel/Energy Logs</h2>
 
 <h3>Filter Logs by Vehicle ID</h3>
@@ -127,6 +146,8 @@
 %>
 
 <table>
+
+
     <tr>
         <th>ID</th>
         <th>Vehicle ID</th>
@@ -135,7 +156,13 @@
         <th>Energy Consumed</th>
         <th>Mileage</th>
         <th>Notes</th>
-        <th>Actions</th>
+	    <%    
+	    if ("Manager".equals(role)) {
+		%>
+		    <th>Actions</th>
+		<%
+		}
+		%>
     </tr>
 
     <%
@@ -151,23 +178,54 @@
         <td><%= log.getEnergyConsumed() != null ? log.getEnergyConsumed() : "-" %></td>
         <td><%= log.getMileage() != null ? log.getMileage() : "-" %></td>
         <td><%= log.getNotes() != null ? log.getNotes() : "-" %></td>
-        <td class="action-links">
-            <a href="EditFuelEnergyLogServlet?id=<%= log.getId() %>">Edit</a>
-            |
-            <a href="confirmDeleteLog.jsp?id=<%= log.getId() %>">Delete</a>
+        <%    
+	    if ("Manager".equals(role)) {
+		%>
+		    <td class="action-links">
+		<%
+		}
+		%>
+        
+    <%    
+    if ("Manager".equals(role)) {
+	%>
+	    <a href="EditFuelEnergyLogServlet?id=<%= log.getId() %>">Edit</a>
+        |
+        <a href="confirmDeleteLog.jsp?id=<%= log.getId() %>">Delete</a>
+	<%
+	}
+	%>
         </td>
     </tr>
     <%
             }
         } else {
     %>
-    <tr><td colspan="8">No logs found.</td></tr>
+        
+    <%
+    if ("Manager".equals(role)) {
+	%>
+	<tr><td colspan="8">No logs found.</td></tr>
+	<%
+	} else {
+	%>
+	<tr><td colspan="8">No relevant logs found.</td></tr>
+	<%
+	}
+	%>
+    <br>
     <%
         }
     %>
 </table>
 
-<a class="add-log-link" href="fuelEnergyLogForm.jsp">Add New Log</a>
+    <%    
+    if ("Manager".equals(role)) {
+	%>
+	    <a class="add-log-link" href="fuelEnergyLogForm.jsp">Add New Log</a>
+	<%
+	}
+	%>
     <br><br>
 <h2>Email Fuel Usage Report</h2>
 

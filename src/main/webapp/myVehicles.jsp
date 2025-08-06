@@ -1,6 +1,20 @@
 <%@ page import="model.Vehicle" %>
 <%@ page import="java.util.List" %>
 <%@ page import="DTOs.UserDTO" %>
+<%@ page import="model.Vehicle" %>
+
+<%
+    // Get Logged-In User
+    UserDTO user = (UserDTO) session.getAttribute("user");
+    if (user == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+
+    int loggedInUserId = user.getId();
+%>
+
+
 
 <!DOCTYPE html>
 <html>
@@ -47,25 +61,10 @@
     </style>
 </head>
 <body>
-<%
-UserDTO user = (UserDTO) session.getAttribute("user");
-if (user == null) {
-    response.sendRedirect("login.jsp");
-    return;
-}
-String role = user.getUserType(); 
-if ("Manager".equals(role)) {
-%>
-    <jsp:include page="transitManagerHeader.jsp" />
-<%
-} else if ("Operator".equals(role)) {
-%>
-    <jsp:include page="operatorHeader.jsp" />
-<%
-}
-%>
 
-<h2>Registered Vehicles</h2>
+    <jsp:include page="operatorHeader.jsp" />
+
+<h2>My Vehicles</h2>
 
 <%
     String message = (String) session.getAttribute("message");
@@ -93,14 +92,13 @@ if ("Manager".equals(role)) {
         <th>Consumption</th>
         <th>Passengers</th>
         <th>Route</th>
-        <th>Assigned User ID</th>
-        <th>Actions</th>
     </tr>
     <%
 
         List<model.Vehicle> vehicles = (List<model.Vehicle>) request.getAttribute("vehicles");
         if (vehicles != null && !vehicles.isEmpty()) {
             for (model.Vehicle v : vehicles) {
+            	if (v.getAssignedUserID() == loggedInUserId) {
     %>
     <tr>
         <td><%= v.getId() %></td>
@@ -110,26 +108,13 @@ if ("Manager".equals(role)) {
         <td><%= v.getConsumptionRate() %></td>
         <td><%= v.getMaxPassengers() %></td>
         <td><%= v.getAssignedRoute() %></td>
-        <td><%= v.getAssignedUserID() %></td>
-        <td>
-            <a class="button" href="editVehicle?id=<%= v.getId() %>">Edit</a>
-            <a class="button" href="deleteVehicle?id=<%= v.getId() %>" onclick="return confirm('Are you sure?')">Delete</a>
-            <%
-            if(user != null && "Manager".equalsIgnoreCase(user.getUserType())) {
-            %>
-            
-        </td>
     </tr>
     <%
+            	}
             }
-        }
+        } else {
     %>
-    <a href="registerVehicle.jsp" class="button">Add New Vehicle</a>  
-    <%
-        } 
-        else {
-    %>
-    <tr><td colspan="8">No vehicles found.</td></tr>
+    <tr><td colspan="8">No Assigned Vehicles.</td></tr>
     <%
         }
     %>

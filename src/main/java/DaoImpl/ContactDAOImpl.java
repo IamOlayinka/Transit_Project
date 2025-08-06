@@ -14,7 +14,7 @@ public class ContactDAOImpl implements ContactDAO {
     public boolean saveMessage(ContactDTO message) {
         String sql = "INSERT INTO messages (name, email, message) VALUES (?, ?, ?)";
 
-        try (Connection conn = Datasource.getConnection();
+        try (Connection conn = Datasource.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, message.getName());

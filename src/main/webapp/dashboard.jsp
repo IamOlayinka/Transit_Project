@@ -1,6 +1,26 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, DTOs.MaintenanceSchedule" %>
-<%@ include file="header.jsp" %>
+<%@ page session="true" %>
+<%@ page import="DTOs.UserDTO" %>
+
+
+<%
+UserDTO user = (UserDTO) session.getAttribute("user");
+if (user == null) {
+    response.sendRedirect("login.jsp");
+    return;
+}
+String role = user.getUserType(); 
+if ("Manager".equals(role)) {
+%>
+    <jsp:include page="transitManagerHeader.jsp" />
+<%
+} else if ("Operator".equals(role)) {
+%>
+    <jsp:include page="operatorHeader.jsp" />
+<%
+}
+%>
 
 <style>
     .dashboard-container {

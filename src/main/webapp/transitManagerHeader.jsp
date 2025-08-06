@@ -1,24 +1,4 @@
-<%@ page session="true" %>
-<%@ page import="DTOs.UserDTO" %>
-
-<%
-UserDTO user = (UserDTO) session.getAttribute("user");
-if (user == null) {
-    response.sendRedirect("login.jsp");
-    return;
-}
-
-String role = user.getUserType(); 
-if ("Manager".equals(role)) {
-%>
-    <jsp:include page="transitManagerHeader.jsp" />
-<%
-} else if ("Operator".equals(role)) {
-%>
-    <jsp:include page="operatorHeader.jsp" />
-<%
-}
-%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +8,7 @@ if ("Manager".equals(role)) {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             margin: 0;
             padding: 0;
-            background-color: #f7f9fa;
+            background-color: #f8f9fa;
             color: #333;
         }
         
@@ -84,43 +64,6 @@ if ("Manager".equals(role)) {
         
         .logout-btn:hover {
             background-color: #0056b3;
-        }
-        
-        .main-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: calc(100vh - 100px);
-            padding: 2rem;
-        }
-        
-        .welcome-card {
-            background: white;
-            padding: 3rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 500px;
-            width: 100%;
-        }
-        
-        .welcome-card h1 {
-            color: #333;
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            font-weight: 400;
-        }
-        
-        .user-name {
-            color: #007bff;
-            font-weight: 600;
-        }
-        
-        .welcome-card p {
-            color: #6c757d;
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            line-height: 1.6;
         }
         
         .action-buttons {
@@ -186,7 +129,7 @@ if ("Manager".equals(role)) {
                 flex-direction: column;
                 align-items: center;
             }
-            a
+            
             .btn {
                 width: 200px;
             }
@@ -194,11 +137,21 @@ if ("Manager".equals(role)) {
     </style>
 </head>
 <body>
-    <div class="main-content">
-        <div class="welcome-card">
-            <h1>Welcome</h1>
-             <h1><span class="user-name"><%= user.getName() %></span>!</h1>
+    <div class="transitManagerHeader">
+        <div class="logo-section">
+            <h2>Transportation</h2>
         </div>
+        
+        <nav class="nav-links">
+        	<a href="index.jsp">Home</a>
+            <a href="DashboardServlet">DashBoard</a>
+            <a href="ViewFuelEnergyLogsServlet">Fuel Logs</a>
+            <a href="ViewMaintenanceScheduleServlet">Maintenance</a>
+            <a href="predictMaintenance.jsp">Predict Maintenance</a>
+            <a href="VehicleList">Vehicles</a>
+        </nav>
+        
+        <a href="login.jsp" class="logout-btn">Logout</a>
     </div>
 </body>
 </html>

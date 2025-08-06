@@ -63,7 +63,7 @@
     </style>
 </head>
 <body>
-<%@ include file="header.jsp" %>
+<%@ include file="transitManagerHeader.jsp" %>
 <div class = "main-content">
 	<div class="form-container">
 <h2>Add Maintenance Schedule</h2>

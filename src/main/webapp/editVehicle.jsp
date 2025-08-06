@@ -21,7 +21,7 @@
         Consumption Rate: <input type="number" step="0.01" name="consumptionRate" value="<%= v.getConsumptionRate() %>" required/><br><br>
         Max Passengers: <input type="number" name="maxPassengers" value="<%= v.getMaxPassengers() %>" required/><br><br>
         Assigned Route: <input type="text" name="assignedRoute" value="<%= v.getAssignedRoute() %>" required/><br><br>
-
+		Assigned User ID: <input type="number" name="assignedUserID" value="<%= v.getAssignedUserID() %>" required/><br><br>
         <input type="submit" value="Update Vehicle"/>
     </form>
 </body>
