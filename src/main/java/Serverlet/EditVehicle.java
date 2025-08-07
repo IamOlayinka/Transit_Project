@@ -14,30 +14,15 @@ import DaoImpl.VehicleDaoImp;
 import Validator.vehicleValidator;
 import model.Vehicle;
 
-/**
- * Servlet implementation class EditVehicle
- */
-
-
 @WebServlet("/editVehicle")
 public class EditVehicle extends HttpServlet {
+
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
 
-    	Map<String, String> errors = vehicleValidator.validate(req);
-
-        if (!errors.isEmpty()) {
-            req.getSession().setAttribute("message", String.join(" ", errors.values()));
-            res.sendRedirect("editVehicle?id=" + req.getParameter("id"));
-            return;
-        }
-        
-        
         int id = Integer.parseInt(req.getParameter("id"));
         VehicleDaoImp dao = new VehicleDaoImp();
         Vehicle vehicle = dao.getVehicleById(id);
-        
-        
 
         req.setAttribute("vehicle", vehicle);
         RequestDispatcher dispatcher = req.getRequestDispatcher("editVehicle.jsp");
@@ -46,6 +31,14 @@ public class EditVehicle extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+
+        Map<String, String> errors = vehicleValidator.validate(req);
+
+        if (!errors.isEmpty()) {
+            req.getSession().setAttribute("message", String.join(" ", errors.values()));
+            res.sendRedirect("editVehicle?id=" + req.getParameter("id"));
+            return;
+        }
 
         int id = Integer.parseInt(req.getParameter("id"));
         String number = req.getParameter("vehicleNumber");
@@ -56,13 +49,13 @@ public class EditVehicle extends HttpServlet {
         String route = req.getParameter("assignedRoute");
 
         Vehicle vehicle = new Vehicle(
-            id, number, type, fuel, consumption, passengers, route
+                id, number, type, fuel, consumption, passengers, route
         );
 
         VehicleDaoImp dao = new VehicleDaoImp();
         dao.updateVehicle(vehicle);
 
-        res.sendRedirect("vehicleList");
+        req.getSession().setAttribute("message", "Vehicle updated successfully.");
+        res.sendRedirect("VehicleList");
     }
 }
-

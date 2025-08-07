@@ -12,4 +12,5 @@ public interface MaintenanceScheduleDAO {
 	MaintenanceSchedule getById(int id);
 	int countCompleted();
 	List<MaintenanceSchedule> getUpcomingWithinDays(int days);
+	List<MaintenanceSchedule> getAllSchedules();
 }

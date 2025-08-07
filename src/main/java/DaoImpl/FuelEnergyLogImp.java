@@ -182,7 +182,7 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
     public Map<Integer, List<FuelEnergyLog>> getLogsGroupedByVehicle() {
         Map<Integer, List<FuelEnergyLog>> groupedLogs = new HashMap<>();
 
-        String sql = "SELECT * FROM fuel_energy_log ORDER BY vehicle_id, log_date";
+        String sql = "SELECT * FROM fuel_energy_logs ORDER BY vehicle_id, log_date";
 
         try (Connection conn = Datasource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);

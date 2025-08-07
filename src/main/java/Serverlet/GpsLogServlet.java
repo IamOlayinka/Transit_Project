@@ -13,30 +13,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/gpsLog")
 public class GpsLogServlet extends HttpServlet {
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse res)
-            throws ServletException, IOException {
-
-        HttpSession session = req.getSession(false);
-        UserDTO user = (UserDTO) session.getAttribute("user");
-
-        if (user == null) {
-            res.sendRedirect("login.jsp");
-            return;
-        }
-
-        // Get list of all vehicles (later: filter by operator-assigned if needed)
-        VehicleDaoImp dao = new VehicleDaoImp();
-        List<Vehicle> vehicles = dao.getAllVehicles();
-
-        req.setAttribute("vehicles", vehicles);
-        req.getRequestDispatcher("gpslog.jsp").forward(req, res);
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
@@ -45,8 +26,11 @@ public class GpsLogServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         UserDTO user = (UserDTO) session.getAttribute("user");
 
-        if (user == null || !"Operator".equalsIgnoreCase(user.getUserType())) {
-            res.sendRedirect("login.jsp");
+        
+        if (user == null || !"Manager".equalsIgnoreCase(user.getUserType())) {
+            if (session != null) {
+                session.setAttribute("errorMessage", "Please log in as a Manager to access this feature.");
+            }  
             return;
         }
 
@@ -63,6 +47,6 @@ public class GpsLogServlet extends HttpServlet {
                 ? "GPS log saved successfully."
                 : "Failed to save GPS log.");
 
-        res.sendRedirect("gpsLog");
+        res.sendRedirect("AddGpsLogServlet");
     }
 }

@@ -12,9 +12,9 @@ import dataaccessLayer.Datasource;
 
 public class VehicleMaintenanceHistoryDAOImpl implements VehicleMaintenanceHistoryDAO {
 
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/your_db", "root", "password");
-    }
+//    private Connection getConnection() throws SQLException {
+//        return DriverManager.getConnection("jdbc:mysql://localhost:3306/ptfms", "cst8288", "ct8288");
+//    }
 
     @Override
     public VehicleMaintenanceHistory getLastMaintenanceByVehicle(int vehicleId) {
@@ -42,7 +42,7 @@ public class VehicleMaintenanceHistoryDAOImpl implements VehicleMaintenanceHisto
 
         String sql = "SELECT * FROM vehicle_maintenance_history ORDER BY vehicle_id, maintenance_date";
 
-        try (Connection conn = getConnection();
+        try (Connection conn = Datasource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 

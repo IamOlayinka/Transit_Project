@@ -35,7 +35,7 @@ public class GenerateReportServlet extends HttpServlet {
         String email = req.getParameter("email");
 
         try {
-            Report report = ReportFactory.createReport(type); // from earlier
+            Report report = ReportFactory.createReport(type); 
             
             ReportCommand command = new GenerateReportCommand(report);
             
