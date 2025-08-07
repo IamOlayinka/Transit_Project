@@ -119,7 +119,7 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
             e.printStackTrace();
             return false;
         }
-    }
+    } 
     
     @Override
     public FuelEnergyLog getLogById(int id) {
