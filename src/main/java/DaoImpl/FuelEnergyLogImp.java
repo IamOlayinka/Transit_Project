@@ -139,7 +139,7 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
 
     @Override
     public FuelEnergyLog getLatestLogByVehicle(int vehicleId) {
-        String sql = "SELECT * FROM fuel_energy_log WHERE vehicle_id = ? ORDER BY log_date DESC LIMIT 1";
+        String sql = "SELECT * FROM fuel_energy_logs WHERE vehicle_id = ? ORDER BY log_date DESC LIMIT 1";
         try (Connection conn = Datasource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, vehicleId);
@@ -165,7 +165,7 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
 
     @Override
     public int countLogs() {
-        String sql = "SELECT COUNT(*) FROM fuel_energy_log";
+        String sql = "SELECT COUNT(*) FROM fuel_energy_logs";
         try (Connection conn = Datasource.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {

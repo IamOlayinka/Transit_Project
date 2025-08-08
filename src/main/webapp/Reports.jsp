@@ -86,7 +86,7 @@ a:hover {
 
 		<div class="section-title">Quick Links</div>
 		<ul class="quick-links">
-			<li><a href="viewFuelEnergyLogs.jsp">View Fuel Logs</a></li>
+			<li><a href="ViewFuelEnergyLogsServlet">View Fuel Logs</a></li>
 			<li><a href="fuelEnergyLogForm.jsp">Add Fuel Log</a></li>
 			<li><a href="ViewMaintenanceScheduleServlet">Maintenance
 					Schedule</a></li>
