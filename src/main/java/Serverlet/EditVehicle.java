@@ -14,36 +14,9 @@ import DaoImpl.VehicleDaoImp;
 import Validator.vehicleValidator;
 import model.Vehicle;
 
-/**
- * Servlet implementation class EditVehicle
- */
-
-
 @WebServlet("/editVehicle")
 public class EditVehicle extends HttpServlet {
-//    protected void doGet(HttpServletRequest req, HttpServletResponse res)
-//            throws ServletException, IOException {
-//
-//    	Map<String, String> errors = vehicleValidator.validate(req);
-//
-//        if (!errors.isEmpty()) {
-//            req.getSession().setAttribute("message", String.join(" ", errors.values()));
-//            res.sendRedirect("editVehicle?id=" + req.getParameter("id"));
-//            return;
-//        }
-//        
-//        
-//        int id = Integer.parseInt(req.getParameter("id"));
-//        VehicleDaoImp dao = new VehicleDaoImp();
-//        Vehicle vehicle = dao.getVehicleById(id);
-//        
-//        
-//
-//        req.setAttribute("vehicle", vehicle);
-//        RequestDispatcher dispatcher = req.getRequestDispatcher("editVehicle.jsp");
-//        dispatcher.forward(req, res);
-//    }
-    
+
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
 
@@ -51,21 +24,21 @@ public class EditVehicle extends HttpServlet {
         VehicleDaoImp dao = new VehicleDaoImp();
         Vehicle vehicle = dao.getVehicleById(id);
 
-        // Perform validation AFTER fetching vehicle (if necessary)
-        Map<String, String> errors = vehicleValidator.validate(req);
-
         req.setAttribute("vehicle", vehicle);
-
-        if (!errors.isEmpty()) {
-            req.setAttribute("validationErrors", errors);
-        }
-
         RequestDispatcher dispatcher = req.getRequestDispatcher("editVehicle.jsp");
         dispatcher.forward(req, res);
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+
+        Map<String, String> errors = vehicleValidator.validate(req);
+
+        if (!errors.isEmpty()) {
+            req.getSession().setAttribute("message", String.join(" ", errors.values()));
+            res.sendRedirect("editVehicle?id=" + req.getParameter("id"));
+            return;
+        }
 
         int id = Integer.parseInt(req.getParameter("id"));
         String number = req.getParameter("vehicleNumber");
@@ -74,15 +47,15 @@ public class EditVehicle extends HttpServlet {
         double consumption = Double.parseDouble(req.getParameter("consumptionRate"));
         int passengers = Integer.parseInt(req.getParameter("maxPassengers"));
         String route = req.getParameter("assignedRoute");
-        int userID = Integer.parseInt(req.getParameter("assignedUserID"));
 
         Vehicle vehicle = new Vehicle(
-            id, number, type, fuel, consumption, passengers, route, userID
+                id, number, type, fuel, consumption, passengers, route
         );
 
         VehicleDaoImp dao = new VehicleDaoImp();
         dao.updateVehicle(vehicle);
 
+        req.getSession().setAttribute("message", "Vehicle updated successfully.");
         res.sendRedirect("VehicleList");
     }
 }

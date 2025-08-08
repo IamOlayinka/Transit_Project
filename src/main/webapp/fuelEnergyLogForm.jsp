@@ -83,7 +83,7 @@ input[type="submit"]:hover {
 </style>
 </head>
 <body>
-	<%@ include file="transitManagerHeader.jsp"%>
+	<%@ include file="header.jsp"%>
 	<div class="main-content">
 		<div class="form-container">
 

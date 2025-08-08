@@ -17,8 +17,8 @@ import DaoImpl.VehicleDaoImp;
 /**
  * Servlet implementation class DashboardServlet
  */
-@WebServlet("/ManagerDashboardServlet")
-public class ManagerDashboardServlet extends HttpServlet {
+@WebServlet("/DashboardServlet")
+public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	 private final VehicleDaoImp vehicleDAO = new VehicleDaoImp();
      private final FuelEnergyLogImp logDAO = new FuelEnergyLogImp();
@@ -37,7 +37,7 @@ public class ManagerDashboardServlet extends HttpServlet {
             List<MaintenanceSchedule> upcoming = maintenanceDAO.getUpcomingWithinDays(7);
             req.setAttribute("upcomingMaintenances", upcoming);
 
-            req.getRequestDispatcher("managerDashboard.jsp").forward(req, resp);
+            req.getRequestDispatcher("dashboard.jsp").forward(req, resp);
         }
 
 }
