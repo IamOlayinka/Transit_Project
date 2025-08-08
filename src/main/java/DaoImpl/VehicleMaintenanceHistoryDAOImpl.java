@@ -19,7 +19,7 @@ public class VehicleMaintenanceHistoryDAOImpl implements VehicleMaintenanceHisto
     @Override
     public VehicleMaintenanceHistory getLastMaintenanceByVehicle(int vehicleId) {
         String sql = "SELECT * FROM vehicle_maintenance_history WHERE vehicle_id = ? ORDER BY maintenance_date DESC LIMIT 1";
-        try (Connection conn = Datasource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = Datasource.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, vehicleId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -42,7 +42,7 @@ public class VehicleMaintenanceHistoryDAOImpl implements VehicleMaintenanceHisto
 
         String sql = "SELECT * FROM vehicle_maintenance_history ORDER BY vehicle_id, maintenance_date";
 
-        try (Connection conn = Datasource.getConnection();
+        try (Connection conn = Datasource.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -69,7 +69,7 @@ public class VehicleMaintenanceHistoryDAOImpl implements VehicleMaintenanceHisto
     @Override
     public boolean addMaintenanceRecord(VehicleMaintenanceHistory record) {
         String sql = "INSERT INTO vehicle_maintenance_history (vehicle_id, maintenance_date, mileage_at_service, notes) VALUES (?, ?, ?, ?)";
-        try (Connection conn = Datasource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = Datasource.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, record.getVehicleId());
             ps.setObject(2, record.getMaintenanceDate());
             ps.setObject(3, record.getMileageAtService());

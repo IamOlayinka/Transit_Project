@@ -1,6 +1,19 @@
 
 <%@ page import="java.util.List"%>
 <%@ page import="DTOs.MaintenanceSchedule"%>
+<%@ page import="DTOs.UserDTO" %>
+
+
+<% 
+UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+if (user == null || !"Manager".equalsIgnoreCase(user.getUserType())) {
+    // Unauthorized access
+    response.sendRedirect("login.jsp"); 
+    return;
+}
+
+
+%>
 
 <html>
 <head>
@@ -106,7 +119,7 @@ a:hover {
 </style>
 </head>
 <body>
-	<%@ include file="header.jsp"%>
+	    <jsp:include page="transitManagerHeader.jsp" />
 	<h2>Upcoming Maintenance Schedule</h2>
 
 	<table>

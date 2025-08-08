@@ -2,6 +2,17 @@
 <%@ page import="model.Vehicle"%>
 <%@ page import="java.util.List"%>
 <%@ page import="Builder.GpsLog"%>
+<%@ page import="DTOs.UserDTO"%>
+
+
+<% 
+UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+if (user == null || !"Manager".equalsIgnoreCase(user.getUserType())) {
+    // Unauthorized access
+    response.sendRedirect("login.jsp"); 
+    return;
+}
+%>
 
 <%
     String message = (String) session.getAttribute("message");
@@ -130,7 +141,7 @@ input[type="submit"]:hover {
 </style>
 </head>
 <body>
-	<%@ include file="header.jsp"%>
+	<%@ include file="transitManagerHeader.jsp"%>
 
 	<h3>All GPS Logs</h3>
 	<table>

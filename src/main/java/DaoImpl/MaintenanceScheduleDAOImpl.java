@@ -12,7 +12,7 @@ public class MaintenanceScheduleDAOImpl implements MaintenanceScheduleDAO {
     public boolean saveSchedule(MaintenanceSchedule schedule) {
         String sql = "INSERT INTO maintenance_schedule (vehicle_id, predicted_date, recommendation, strategy_used) VALUES (?, ?, ?, ?)";
         
-        try (Connection conn = Datasource.getConnection();
+        try (Connection conn = Datasource.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
         	ps.setInt(1, schedule.getVehicleId());
             ps.setTimestamp(2, Timestamp.valueOf(schedule.getPredictedDate()));
@@ -30,7 +30,7 @@ public class MaintenanceScheduleDAOImpl implements MaintenanceScheduleDAO {
     public List<MaintenanceSchedule> getUpcomingSchedules() {
         List<MaintenanceSchedule> list = new ArrayList<>();
         String sql = "SELECT * FROM maintenance_schedule WHERE predicted_date >= NOW() ORDER BY predicted_date ASC";
-        try (Connection conn = Datasource.getConnection();
+        try (Connection conn = Datasource.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -53,7 +53,7 @@ public class MaintenanceScheduleDAOImpl implements MaintenanceScheduleDAO {
     @Override
     public boolean updateStatus(int id, String newStatus) {
         String sql = "UPDATE maintenance_schedule SET status = ? WHERE id = ?";
-        try (Connection conn = Datasource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = Datasource.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newStatus);
             ps.setInt(2, id);
             return ps.executeUpdate() > 0;
@@ -66,7 +66,7 @@ public class MaintenanceScheduleDAOImpl implements MaintenanceScheduleDAO {
     @Override
     public boolean deleteSchedule(int id) {
         String sql = "DELETE FROM maintenance_schedule WHERE id = ?";
-        try (Connection conn = Datasource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = Datasource.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -78,7 +78,7 @@ public class MaintenanceScheduleDAOImpl implements MaintenanceScheduleDAO {
     @Override
     public MaintenanceSchedule getById(int id) {
         String sql = "SELECT * FROM maintenance_schedule WHERE id = ?";
-        try (Connection conn = Datasource.getConnection();
+        try (Connection conn = Datasource.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
@@ -104,7 +104,7 @@ public class MaintenanceScheduleDAOImpl implements MaintenanceScheduleDAO {
     @Override
     public int countCompleted() {
         String sql = "SELECT COUNT(*) FROM maintenance_schedule WHERE status = 'Completed'";
-        try (Connection conn = Datasource.getConnection(); Statement stmt = conn.createStatement()) {
+        try (Connection conn = Datasource.getInstance().getConnection(); Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) return rs.getInt(1);
         } catch (SQLException e) { e.printStackTrace(); }
@@ -115,7 +115,7 @@ public class MaintenanceScheduleDAOImpl implements MaintenanceScheduleDAO {
     public List<MaintenanceSchedule> getUpcomingWithinDays(int days) {
         List<MaintenanceSchedule> list = new ArrayList<>();
         String sql = "SELECT * FROM maintenance_schedule WHERE predicted_date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL ? DAY)";
-        try (Connection conn = Datasource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = Datasource.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, days);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -140,7 +140,7 @@ public class MaintenanceScheduleDAOImpl implements MaintenanceScheduleDAO {
 
         String sql = "SELECT * FROM maintenance_schedule ORDER BY predicted_date ASC";
 
-        try (Connection conn = Datasource.getConnection();
+        try (Connection conn = Datasource.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 

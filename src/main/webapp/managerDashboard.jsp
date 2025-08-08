@@ -1,7 +1,22 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ page import="java.util.*"%>
 <%@ page import="DTOs.MaintenanceSchedule"%>
-<%@ include file="header.jsp"%>
+<%@ page import="DTOs.UserDTO" %>
+
+<jsp:include page="transitManagerHeader.jsp" />
+
+<% 
+UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+if (user == null || !"Manager".equalsIgnoreCase(user.getUserType())) {
+    // Unauthorized access
+    response.sendRedirect("login.jsp");
+    return;
+}
+
+
+%>
+
+
 
 <!-- Style Block -->
 <style>

@@ -82,7 +82,7 @@ input[type="submit"]:hover {
 </style>
 </head>
 <body>
-	<%@ include file="header.jsp"%>
+	<%@ include file="transitManagerHeader.jsp"%>
 	<h2>Vehicle Registration Form</h2>
 
 	<%

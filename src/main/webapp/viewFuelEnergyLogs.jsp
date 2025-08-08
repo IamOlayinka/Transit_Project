@@ -1,7 +1,29 @@
 <%@ page import="java.util.List"%>
 <%@ page import="DTOs.FuelEnergyLog"%>
+<%@ page session="true" %>
+<%@ page import="DTOs.UserDTO" %>
+<%@ page import="model.Vehicle" %>
+<%@ page import="DaoImpl.VehicleDaoImp" %>
 
-<%@ include file="header.jsp"%>
+    <%
+    VehicleDaoImp vehicleDao = new VehicleDaoImp();
+	UserDTO user = (UserDTO) session.getAttribute("user");
+    int userId = user.getId();
+	if (user == null) {
+	    response.sendRedirect("login.jsp");
+	    return;
+	}
+	String role = user.getUserType(); 
+	if ("Manager".equals(role)) {
+	%>
+	    <jsp:include page="transitManagerHeader.jsp" />
+	<%
+	} else if ("Operator".equals(role)) {
+	%>
+	    <jsp:include page="operatorHeader.jsp" />
+	<%
+	}
+	%>
 
 <!DOCTYPE html>
 <html>
@@ -165,21 +187,31 @@ select {
 
 		<%
             Object filteredVehicleId = request.getAttribute("filteredVehicleId");
-            if (filteredVehicleId != null) {
-                System.out.println("Displaying logs for filteredVehicleId: " + filteredVehicleId);
-        %>
-		<p class="notice">
-			Showing logs for <strong>Vehicle ID: <%= filteredVehicleId %></strong>
-		</p>
-		<p>
-			<a class="clear-link btn-primary" href="ViewFuelEnergyLogsServlet">Clear
-				Filter</a>
-		</p>
-		<%
-            } else {
-                System.out.println("No filteredVehicleId attribute found");
-            }
-        %>
+			if(filteredVehicleId != null) {
+				int vehicleIdInt = Integer.parseInt(filteredVehicleId.toString());
+	            Vehicle vehicle = vehicleDao.getVehicleById(vehicleIdInt);
+	            if (vehicle != null) {
+		            if (vehicle.getAssignedUserID() == userId && "Operator".equals(role)) {
+		                System.out.println("Displaying logs for filteredVehicleId: " + filteredVehicleId);
+		            } else {
+		                // Optionally set logs = null to avoid showing logs
+		                request.setAttribute("logs", null);
+		            }
+	            }
+				List<FuelEnergyLog> logs = (List<FuelEnergyLog>) request.getAttribute("logs");
+				if(logs != null && !logs.isEmpty()) {
+		    %>
+				<p class="notice">
+					Showing logs for <strong>Vehicle ID: <%= filteredVehicleId %></strong>
+				</p>
+			<%
+				}
+			}
+			%>
+			<p>
+				<a class="clear-link btn-primary" href="ViewFuelEnergyLogsServlet">Clear
+					Filter</a>
+			</p>
 
 		<div class="responsive-table">
 			<table>
@@ -191,11 +223,17 @@ select {
 					<th>Energy Consumed</th>
 					<th>Mileage</th>
 					<th>Notes</th>
+					<%    
+				    if ("Manager".equals(role)) {
+					%>
 					<th>Actions</th>
+					<%
+					}
+					%>
 				</tr>
 
 				<%
-                    List<FuelEnergyLog> logs = (List<FuelEnergyLog>) request.getAttribute("logs");
+				List<FuelEnergyLog> logs = (List<FuelEnergyLog>) request.getAttribute("logs");
                     System.out.println("Retrieved logs: " + (logs != null ? logs.size() : "null"));
                     if (logs != null && !logs.isEmpty()) {
                         for (FuelEnergyLog log : logs) {
@@ -209,6 +247,9 @@ select {
 					<td><%= log.getEnergyConsumed() != null ? log.getEnergyConsumed() : "-" %></td>
 					<td><%= log.getMileage() != null ? log.getMileage() : "-" %></td>
 					<td><%= log.getNotes() != null ? log.getNotes() : "-" %></td>
+					<%    
+				    if ("Manager".equals(role)) {
+					%>
 					<td class="action-links"><a class="btn-edit"
 						href="EditFuelEnergyLogServlet?id=<%= log.getId() %>">Edit</a>
 						<form action="DeleteFuelEnergyLogServlet" method="post"
@@ -216,7 +257,11 @@ select {
 							<input type="hidden" name="id" value="<%= log.getId() %>" />
 							<button class="btn btn-delete" type="submit"
 								onclick="return confirm('Are you sure?')">Delete</button>
-						</form></td>
+						</form>
+					</td>
+					<%
+					}
+					%>
 				</tr>
 				<%
                         }
@@ -231,10 +276,15 @@ select {
                 %>
 			</table>
 		</div>
-
+		<%    
+    if ("Manager".equals(role)) {
+	%>
 		<a class="btn-primary" href="fuelEnergyLogForm.jsp"> <i
 			class="fa fa-plus-circle"></i> Add New Log
 		</a>
+	<%
+	}
+	%>
 	</div>
 
 	<div class="section">

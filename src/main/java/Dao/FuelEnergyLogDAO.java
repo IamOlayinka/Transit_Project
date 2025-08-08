@@ -15,5 +15,6 @@ public interface FuelEnergyLogDAO {
 	FuelEnergyLog getLogById(int id);
 	FuelEnergyLog getLatestLogByVehicle(int vehicleId);
 	int countLogs();
+	int countLogsByUserID(int userID);
 	Map<Integer, List<FuelEnergyLog>> getLogsGroupedByVehicle();
 }
