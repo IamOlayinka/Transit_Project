@@ -14,12 +14,12 @@ public class VehicleDaoImp implements VehicleDao {
 
 
 	    public boolean registerVehicle(Vehicle vehicle)  {
-	        String sql = "INSERT INTO vehicles (vehicle_number, vehicle_type, fuel_type, consumption_rate, max_passengers, assigned_route, assigned_user_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	        String sql = "INSERT INTO vehicles (vehicle_number, vehicle_type, fuel_type, consumption_rate, max_passengers, assigned_route) VALUES (?, ?, ?, ?, ?, ?)";
 
 	        try 
 	         {
 	        	//Creating connection with the database
-	        	Connection conn = Datasource.getInstance().getConnection();
+	        	Connection conn = Datasource.getConnection();
 	        	
 	        	//Querying the database
 	            PreparedStatement stmt = conn.prepareStatement(sql);
@@ -32,7 +32,6 @@ public class VehicleDaoImp implements VehicleDao {
 	            stmt.setDouble(4, vehicle.getConsumptionRate());
 	            stmt.setInt(5, vehicle.getMaxPassengers());
 	            stmt.setString(6, vehicle.getAssignedRoute());
-	            stmt.setInt(7, vehicle.getAssignedUserID());
 
 	            return stmt.executeUpdate() > 0;
 
@@ -44,41 +43,36 @@ public class VehicleDaoImp implements VehicleDao {
 
 		@Override
 		public List<Vehicle> getAllVehicles() {
-			List<Vehicle> vehicleList = new ArrayList<>();
+		    List<Vehicle> vehicleList = new ArrayList<>();
 		    String sql = "SELECT * FROM vehicles";
-
-		    try (Connection conn = Datasource.getInstance().getConnection();
+		    try (Connection conn = Datasource.getConnection();
 		         PreparedStatement stmt = conn.prepareStatement(sql);
 		         ResultSet rs = stmt.executeQuery()) {
-		    	
-                System.out.println(rs);
+		        int rowCount = 0;
 		        while (rs.next()) {
-		        	int id = rs.getInt("id");
-		        	String VehicleNumber = rs.getString("vehicle_number");
-		        	String VehicleType = rs.getString("vehicle_type");
-		        	String FuelType = rs.getString("fuel_type");
-		        	double ConsumptionRate = rs.getDouble("consumption_rate");
-		        	int MaxPassengers = rs.getInt("max_passengers");
-		        	String AssignedRoute = rs.getString("assigned_route");
-		        	int AssignedUserID = rs.getInt("assigned_user_id");		        	
-		            Vehicle vehicle = new Vehicle(id,VehicleNumber,VehicleType,FuelType,ConsumptionRate,MaxPassengers,AssignedRoute, AssignedUserID);
-		               
-		             
+		            rowCount++;
+		            Vehicle vehicle = new Vehicle(
+		                rs.getInt("id"),
+		                rs.getString("vehicle_number"),
+		                rs.getString("vehicle_type"),
+		                rs.getString("fuel_type"),
+		                rs.getDouble("consumption_rate"),
+		                rs.getInt("max_passengers"),
+		                rs.getString("assigned_route")
+		            );
 		            vehicleList.add(vehicle);
 		        }
-
 		    } catch (SQLException e) {
+		        System.err.println("Error fetching vehicles: " + e.getMessage());
 		        e.printStackTrace();
 		    }
-		    
-		    
 		    return vehicleList;
 		}
 
 		@Override
 		public Vehicle getVehicleById(int id) {
 			String sql = "SELECT * FROM vehicles WHERE id = ?";
-		    try (Connection conn = Datasource.getInstance().getConnection();
+		    try (Connection conn = Datasource.getConnection();
 		         PreparedStatement stmt = conn.prepareStatement(sql)) {
 		        stmt.setInt(1, id);
 		        ResultSet rs = stmt.executeQuery();
@@ -90,8 +84,7 @@ public class VehicleDaoImp implements VehicleDao {
 		                rs.getString("fuel_type"),
 		                rs.getDouble("consumption_rate"),
 		                rs.getInt("max_passengers"),
-		                rs.getString("assigned_route"),
-		                rs.getInt("assigned_user_id")
+		                rs.getString("assigned_route")
 		            );
 		        }
 		    } catch (SQLException e) {
@@ -102,8 +95,9 @@ public class VehicleDaoImp implements VehicleDao {
 
 		@Override
 		public boolean updateVehicle(Vehicle v) {
-			String sql = "UPDATE vehicles SET vehicle_number=?, vehicle_type=?, fuel_type=?, consumption_rate=?, max_passengers=?, assigned_route=?, assigned_user_id=? WHERE id=?";
-		    try (Connection conn = Datasource.getInstance().getConnection();
+			String sql = "UPDATE vehicles SET vehicle_number=?, vehicle_type=?, fuel_type=?, consumption_rate=?, max_passengers=?, assigned_route=? WHERE id=?";
+			System.out.println("Attempting to fetch all vehicles...");
+			try (Connection conn = Datasource.getConnection();
 		         PreparedStatement stmt = conn.prepareStatement(sql)) {
 		        stmt.setString(1, v.getVehicleNumber());
 		        stmt.setString(2, v.getVehicleType());
@@ -111,8 +105,7 @@ public class VehicleDaoImp implements VehicleDao {
 		        stmt.setDouble(4, v.getConsumptionRate());
 		        stmt.setInt(5, v.getMaxPassengers());
 		        stmt.setString(6, v.getAssignedRoute());
-		        stmt.setInt(7, v.getAssignedUserID());
-		        stmt.setInt(8, v.getId());
+		        stmt.setInt(7, v.getId());
 		        return stmt.executeUpdate() > 0;
 		    } catch (SQLException e) {
 		        e.printStackTrace();
@@ -122,71 +115,25 @@ public class VehicleDaoImp implements VehicleDao {
 
 		@Override
 		public boolean deleteVehicle(int id) {
-			    String sql = "DELETE FROM vehicles WHERE id = ?";
-			    try (Connection conn = Datasource.getInstance().getConnection();
-			         PreparedStatement stmt = conn.prepareStatement(sql)) {
-			        stmt.setInt(1, id);
-			        return stmt.executeUpdate() > 0;
-			    } catch (SQLException e) {
-			        e.printStackTrace();
-			        return false;
-			    }
+			String sql = "DELETE FROM vehicles WHERE id = ?";
+		    try (Connection conn = Datasource.getConnection();
+		         PreparedStatement stmt = conn.prepareStatement(sql)) {
+		        stmt.setInt(1, id);
+		        return stmt.executeUpdate() > 0;
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		        return false;
+		    }
 			}
 
 		public int countVehicles() {
 			 String sql = "SELECT COUNT(*) FROM vehicles";
-			    try (Connection conn = Datasource.getInstance().getConnection(); Statement stmt = conn.createStatement()) {
+			    try (Connection conn = Datasource.getConnection(); Statement stmt = conn.createStatement()) {
 			        ResultSet rs = stmt.executeQuery(sql);
 			        if (rs.next()) return rs.getInt(1);
 			    } catch (SQLException e) { e.printStackTrace(); }
 			    return 0;
 		}
-		
-		public int countVehiclesByUserID(int userID) {
-		    String sql = "SELECT COUNT(*) FROM vehicles WHERE assigned_user_id = ?";
-		    try (Connection conn = Datasource.getInstance().getConnection(); 
-		         PreparedStatement stmt = conn.prepareStatement(sql)) {  // Changed to PreparedStatement
-		        
-		        stmt.setInt(1, userID);  // Set the parameter
-		        ResultSet rs = stmt.executeQuery();
-		        if (rs.next()) return rs.getInt(1);
-		        
-		    } catch (SQLException e) { 
-		        e.printStackTrace(); 
-		    }
-		    return 0;
-		}
-		
-		public List<Vehicle> getVehiclesByAssignedUserID(int assignedUserId) {
-		    List<Vehicle> vehicleList = new ArrayList<>();
-		    String sql = "SELECT * FROM vehicles WHERE assigned_user_id = ?";
-
-		    try (Connection conn = Datasource.getInstance().getConnection();
-		         PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-		        stmt.setInt(1, assignedUserId);
-		        ResultSet rs = stmt.executeQuery();
-
-		        while (rs.next()) {
-		            Vehicle vehicle = new Vehicle(
-		                rs.getInt("id"),
-		                rs.getString("vehicle_number"),
-		                rs.getString("vehicle_type"),
-		                rs.getString("fuel_type"),
-		                rs.getDouble("consumption_rate"),
-		                rs.getInt("max_passengers"),
-		                rs.getString("assigned_route"),
-		                rs.getInt("assigned_user_id")
-		            );
-		            vehicleList.add(vehicle);
-		        }
-		    } catch (SQLException e) {
-		        e.printStackTrace();
-		    }
-
-		    return vehicleList;
-		}
-		
 			
 
 

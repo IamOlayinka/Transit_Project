@@ -26,7 +26,7 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
     public boolean addFuelEnergyLog(FuelEnergyLog log) {
         String sql = "INSERT INTO fuel_energy_logs (vehicle_id, log_date, fuel_consumed, energy_consumed, mileage, notes) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = Datasource.getInstance().getConnection();
+        try (Connection conn = Datasource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, log.getVehicleId());
@@ -60,7 +60,7 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
     public List<FuelEnergyLog> getAllLogs() {
         List<FuelEnergyLog> logs = new ArrayList<>();
         String sql = "SELECT * FROM fuel_energy_logs ORDER BY log_date DESC";
-        try (Connection conn = Datasource.getInstance().getConnection();
+        try (Connection conn = Datasource.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
@@ -69,7 +69,6 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("Total Logs Found: " + logs.size());
         return logs;
     }
 
@@ -77,7 +76,7 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
     public List<FuelEnergyLog> getLogsByVehicle(int vehicleId) {
         List<FuelEnergyLog> logs = new ArrayList<>();
         String sql = "SELECT * FROM fuel_energy_logs WHERE vehicle_id = ? ORDER BY log_date DESC";
-        try (Connection conn = Datasource.getInstance().getConnection();
+        try (Connection conn = Datasource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, vehicleId);
             ResultSet rs = ps.executeQuery();
@@ -93,7 +92,7 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
     @Override
     public boolean updateFuelEnergyLog(FuelEnergyLog log) {
         String sql = "UPDATE fuel_energy_logs SET vehicle_id = ?, log_date = ?, fuel_consumed = ?, energy_consumed = ?, mileage = ?, notes = ? WHERE id = ?";
-        try (Connection conn = Datasource.getInstance().getConnection();
+        try (Connection conn = Datasource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, log.getVehicleId());
             ps.setTimestamp(2, Timestamp.valueOf(log.getLogDate()));
@@ -112,7 +111,7 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
     @Override
     public boolean deleteFuelEnergyLog(int id) {
         String sql = "DELETE FROM fuel_energy_logs WHERE id = ?";
-        try (Connection conn = Datasource.getInstance().getConnection();
+        try (Connection conn = Datasource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
@@ -125,7 +124,7 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
     @Override
     public FuelEnergyLog getLogById(int id) {
         String sql = "SELECT * FROM fuel_energy_logs WHERE id = ?";
-        try (Connection conn = Datasource.getInstance().getConnection();
+        try (Connection conn = Datasource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -141,7 +140,7 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
     @Override
     public FuelEnergyLog getLatestLogByVehicle(int vehicleId) {
         String sql = "SELECT * FROM fuel_energy_logs WHERE vehicle_id = ? ORDER BY log_date DESC LIMIT 1";
-        try (Connection conn = Datasource.getInstance().getConnection();
+        try (Connection conn = Datasource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, vehicleId);
             ResultSet rs = ps.executeQuery();
@@ -165,25 +164,9 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
     }
 
     @Override
-    public int countLogsByUserID(int userID) {
-        String sql = "SELECT COUNT(*) FROM fuel_energy_logs f JOIN vehicles v ON f.vehicle_id = v.id WHERE v.assigned_user_id = ?";
-        try (Connection conn = Datasource.getInstance().getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {  // Use PreparedStatement
-            ps.setInt(1, userID);  // Set the parameter
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
- 
-    @Override
     public int countLogs() {
         String sql = "SELECT COUNT(*) FROM fuel_energy_logs";
-        try (Connection conn = Datasource.getInstance().getConnection();
+        try (Connection conn = Datasource.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             if (rs.next()) {
@@ -194,14 +177,14 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
         }
         return 0;
     }
-    
+ 
     @Override
     public Map<Integer, List<FuelEnergyLog>> getLogsGroupedByVehicle() {
         Map<Integer, List<FuelEnergyLog>> groupedLogs = new HashMap<>();
 
-        String sql = "SELECT * FROM fuel_energy_log ORDER BY vehicle_id, log_date";
+        String sql = "SELECT * FROM fuel_energy_logs ORDER BY vehicle_id, log_date";
 
-        try (Connection conn = Datasource.getInstance().getConnection();
+        try (Connection conn = Datasource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 

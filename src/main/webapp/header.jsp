@@ -137,7 +137,7 @@ body {
 		</div>
 
 		<nav class="nav-links">
-			<a href="index.jsp">Home</a> <a href="ManagerDashboardServlet">Dashboard</a>
+			<a href="index.jsp">Home</a> <a href="DashboardServlet">Dashboard</a>
 			<a href="ViewFuelEnergyLogsServlet">Fuel Logs</a> <a
 				href="ViewMaintenanceScheduleServlet">Maintenance</a> <a
 				href="predictMaintenance.jsp">Predict Maintenance</a> <a

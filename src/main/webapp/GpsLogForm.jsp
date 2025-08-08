@@ -3,17 +3,6 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="Builder.GpsLog"%>
-<%@ page import="DTOs.UserDTO"%>
-
-
-<% 
-UserDTO user = (UserDTO) request.getSession().getAttribute("user");
-if (user == null || !"Manager".equalsIgnoreCase(user.getUserType())) {
-    // Unauthorized access
-    response.sendRedirect("login.jsp"); 
-    return;
-}
-%>
 
 <%
     String message = (String) session.getAttribute("message");
@@ -108,7 +97,7 @@ input[type="submit"]:hover {
 </style>
 </head>
 <body>
-	<%@ include file="transitManagerHeader.jsp"%>
+	<%@ include file="header.jsp"%>
 	<% 
     String errorMessage = (String) session.getAttribute("errorMessage"); 
     if (errorMessage != null) {

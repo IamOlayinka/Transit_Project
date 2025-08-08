@@ -1,16 +1,6 @@
 
 <%@ page import="java.util.Map"%>
 <%@ page import="DTOs.FuelEnergyLog"%>
-<%@ page import="DTOs.UserDTO" %>
-
-<% 
-UserDTO user = (UserDTO) request.getSession().getAttribute("user");
-if (user == null || !"Manager".equalsIgnoreCase(user.getUserType())) {
-    // Unauthorized access
-    response.sendRedirect("login.jsp"); 
-    return;
-}
-%>
 
 <html>
 <head>
@@ -109,7 +99,7 @@ tr:nth-child(even) {
 </style>
 </head>
 <body>
-	    <jsp:include page="transitManagerHeader.jsp" />
+	<%@ include file="header.jsp"%>
 	<div class="main-wrapper">
 		<h2>Predictive Maintenance</h2>
 

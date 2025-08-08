@@ -10,7 +10,7 @@ public class UserDaoImp {
     public boolean registerUser(UserDTO user) {
         String sql = "INSERT INTO users (name, email, password, user_type) VALUES (?, ?, ?, ?)";
         try {
-        	Connection conn = Datasource.getInstance().getConnection();
+        	Connection conn = Datasource.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getEmail());
@@ -28,7 +28,7 @@ public class UserDaoImp {
     	
         String sql = "SELECT * FROM users WHERE email = ?";
         try  {
-        	Connection conn = Datasource.getInstance().getConnection();
+        	Connection conn = Datasource.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
@@ -49,7 +49,7 @@ public class UserDaoImp {
     
     public boolean emailExists(String email) {
         String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
-        try (Connection conn = Datasource.getInstance().getConnection();
+        try (Connection conn = Datasource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, email);
