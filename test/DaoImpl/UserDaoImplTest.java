@@ -22,11 +22,10 @@ public class UserDaoImplTest {
         assertTrue(result, "User registration should succeed");
     }
  
-    @Test
+    @Test 
     public void testLoginSuccess() {
         String email = "amindu@gmail.com";
         String password = "Amindu";
-
         UserDTO user = dao.login(email, password);
         assertNotNull(user, "User should be found for valid login");
         assertEquals(email, user.getEmail());
