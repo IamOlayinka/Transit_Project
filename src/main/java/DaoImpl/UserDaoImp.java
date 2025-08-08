@@ -63,5 +63,10 @@ public class UserDaoImp {
         return false;
     }
 
+	public UserDTO login(String email, String password) {
+		// TODO Auto-generated method stub (For the test)
+		return null; 
+	}
+
 }
 

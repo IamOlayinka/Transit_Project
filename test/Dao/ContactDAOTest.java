@@ -16,7 +16,7 @@ public class ContactDAOTest {
 
     @BeforeEach
     public void setUp() {
-        contactDAO = new ContactDAOImpl(); // Replace with your actual implementation class
+        contactDAO = new ContactDAOImpl(); 
     }
 
     @Test

@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
             try {
                 // Decoding the stored hash password
                 byte[] saltAndHash = Base64.getDecoder().decode(storedHashedPassword);
-                
+                 
 
                 byte[] salt = new byte[16];
                 System.arraycopy(saltAndHash, 0, salt, 0, 16);
