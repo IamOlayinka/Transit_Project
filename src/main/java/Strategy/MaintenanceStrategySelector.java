@@ -11,7 +11,7 @@ switch(type.toLowerCase()){
         return new IntervalBasedMaintenanceStrategy();
     case "fuel":
         return new FuelUsageMaintenanceStrategy();
-    case "mileae":
+    case "mileage":
         return new MileageBasedMaintenanceStrategy();
     default:
         throw new IllegalArgumentException("Unknown maintenance strategy type: " + type);

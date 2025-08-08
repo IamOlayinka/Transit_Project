@@ -120,7 +120,7 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
             e.printStackTrace();
             return false;
         }
-    }
+    } 
     
     @Override
     public FuelEnergyLog getLogById(int id) {
@@ -168,8 +168,8 @@ public class FuelEnergyLogImp implements FuelEnergyLogDAO {
     public int countLogsByUserID(int userID) {
         String sql = "SELECT COUNT(*) FROM fuel_energy_logs f JOIN vehicles v ON f.vehicle_id = v.id WHERE v.assigned_user_id = ?";
         try (Connection conn = Datasource.getInstance().getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {  // ✅ Use PreparedStatement
-            ps.setInt(1, userID);  // ✅ Set the parameter
+             PreparedStatement ps = conn.prepareStatement(sql)) {  // Use PreparedStatement
+            ps.setInt(1, userID);  // Set the parameter
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1);

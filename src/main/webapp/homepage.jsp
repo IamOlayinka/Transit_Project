@@ -15,6 +15,35 @@
 <!-- Custom CSS (from Colorlib template) -->
 <link href="css/style.css" rel="stylesheet">
 </head>
+
+<style>
+.scroll-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  height: 2rem;
+  background-color: transparent;
+}
+
+.scroll-text {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 1.2rem;
+  color: black;
+  animation: scrollLeft 15s linear infinite;
+  padding-left: 100%;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+</style>
+
 <body>
 
 	<!-- Header -->
@@ -40,6 +69,13 @@
 			<a href="login.jsp" class="btn btn-light btn-lg mt-3">Get Started</a>
 		</div>
 	</section>
+	
+	
+	<div class="scroll-wrapper">
+  <p class="scroll-text">
+   &copy PTFMS 2025 -- Developed by Olayinka Idumu, Abdullahi Salami, Amindu Udawatta & Mustafa Tarek -- PTFMS 2025 &copy
+  </p>
+	</div>
 
 	<!-- Services Section -->
 	<section class="bg-light p-5" id="services">

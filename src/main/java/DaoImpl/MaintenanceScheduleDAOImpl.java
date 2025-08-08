@@ -10,7 +10,7 @@ import java.util.List;
 public class MaintenanceScheduleDAOImpl implements MaintenanceScheduleDAO {
 
     public boolean saveSchedule(MaintenanceSchedule schedule) {
-        String sql = "INSERT INTO maintenance_schedule (vehicle_id, predicted_date, recommendation, strategy_used) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO maintenance_schedule (vehicle_id, predicted_date, recommendation, strategy_used, status) VALUES (?, ?, ?, ?,?)";
         
         try (Connection conn = Datasource.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {

@@ -23,33 +23,30 @@ public class UserDaoImp {
         }
     }
 
-    public UserDTO login(String email, String password) {
-    	UserDTO user = new UserDTO();
+    public UserDTO getUserByEmail(String email) {
+    	UserDTO user = null;
     	
-        String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+        String sql = "SELECT * FROM users WHERE email = ?";
         try  {
         	Connection conn = Datasource.getInstance().getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, email);
-            stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-            	
+            	user = new UserDTO();
             	user.setId(rs.getInt("id"));
                 user.setName(rs.getString("name"));
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
                 user.setUserType(rs.getString("user_type"));
-            	
-                return user;
-                        
-                        
+   
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return user;
     }
+    
     public boolean emailExists(String email) {
         String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
         try (Connection conn = Datasource.getInstance().getConnection();
@@ -65,6 +62,11 @@ public class UserDaoImp {
         }
         return false;
     }
+
+	public UserDTO login(String email, String password) {
+		// TODO Auto-generated method stub (For the test)
+		return null; 
+	}
 
 }
 

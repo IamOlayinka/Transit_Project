@@ -153,7 +153,7 @@ input[type="submit"]:hover {
 				<input type="submit" value="Submit GPS Log">
 			</form>
 
-			<a class="back-link" href="gpslog.jsp">View All Logs</a>
+			<a class="back-link" href="AddGpsLogServlet">View All Logs</a>
 		</div>
 	</div>
 </body>

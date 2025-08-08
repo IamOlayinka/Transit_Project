@@ -22,6 +22,7 @@ public class VehicleMaintenanceHistoryDAOImpl implements VehicleMaintenanceHisto
         try (Connection conn = Datasource.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, vehicleId);
             ResultSet rs = ps.executeQuery();
+            System.out.println(rs);
             if (rs.next()) {
                 VehicleMaintenanceHistory history = new VehicleMaintenanceHistory();
                 history.setId(rs.getInt("id"));
@@ -51,9 +52,8 @@ public class VehicleMaintenanceHistoryDAOImpl implements VehicleMaintenanceHisto
                 history.setId(rs.getInt("id"));
                 history.setVehicleId(rs.getInt("vehicle_id"));
                 history.setMaintenanceDate(rs.getTimestamp("maintenance_date").toLocalDateTime());
-                history.setRecommendation(rs.getString("recommendation"));
-                history.setStrategyUsed(rs.getString("strategy_used"));
-                history.setStatus(rs.getString("status"));
+                history.setMileageAtService(rs.getDouble("mileage_at_service"));
+                history.setNotes(rs.getString("notes"));
 
                 int vehicleId = history.getVehicleId();
                 grouped.computeIfAbsent(vehicleId, k -> new ArrayList<>()).add(history);

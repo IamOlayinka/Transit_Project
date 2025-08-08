@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import DaoImpl.UserDaoImp;
-import DTOs.UserDTO;
+import DTOs.UserDTO; 
 
 public class UserDaoImplTest {
 
@@ -22,11 +22,10 @@ public class UserDaoImplTest {
         assertTrue(result, "User registration should succeed");
     }
  
-    @Test
+    @Test 
     public void testLoginSuccess() {
         String email = "amindu@gmail.com";
         String password = "Amindu";
-
         UserDTO user = dao.login(email, password);
         assertNotNull(user, "User should be found for valid login");
         assertEquals(email, user.getEmail());
