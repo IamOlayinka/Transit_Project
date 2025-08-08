@@ -1,6 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ page import="model.Vehicle"%>
-<%@ include file="header.jsp"%>
+<%@ include file="transitManagerHeader.jsp"%>
+<%@ page import="DTOs.UserDTO"%>
+
+
+<% 
+UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+if (user == null || !"Manager".equalsIgnoreCase(user.getUserType())) {
+    // Unauthorized access
+    response.sendRedirect("login.jsp"); 
+    return;
+}
+%>
 
 <%
     Vehicle v = (Vehicle) request.getAttribute("vehicle");
@@ -118,8 +129,11 @@ input[type="submit"]:hover {
 					Passengers:</label> <input type="number" name="maxPassengers"
 					value="<%= v.getMaxPassengers() %>" required /> <label>Assigned
 					Route:</label> <input type="text" name="assignedRoute"
-					value="<%= v.getAssignedRoute() %>" required /> <input
-					type="submit" value="Update Vehicle" />
+					value="<%= v.getAssignedRoute() %>" required /> <label>Assigned
+					User ID:</label> <input type="text" name="assignedUserID"
+					value="<%= v.getAssignedUserID() %>" required /> 
+					
+					<input type="submit" value="Update Vehicle" />
 			</form>
 		</div>
 	</div>

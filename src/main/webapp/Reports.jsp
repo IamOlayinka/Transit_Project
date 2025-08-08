@@ -1,4 +1,4 @@
-<%@ include file="header.jsp"%>
+<%@ include file="transitManagerHeader.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>

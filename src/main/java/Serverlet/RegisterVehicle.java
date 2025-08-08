@@ -24,6 +24,7 @@ public class RegisterVehicle extends HttpServlet{
 	        double consumptionRate = Double.parseDouble(req.getParameter("consumptionRate"));
 	        int maxPassengers = Integer.parseInt(req.getParameter("maxPassengers"));
 	        String assignedRoute = req.getParameter("assignedRoute");
+	        int assignedUserID = Integer.parseInt(req.getParameter("assignedUserID"));
 	        
 	        Map<String, String> errors = vehicleValidator.validate(req);
 
@@ -43,7 +44,8 @@ public class RegisterVehicle extends HttpServlet{
 	        	    fuelType,
 	        	    consumption,
 	        	    passengers,
-	        	    assignedRoute
+	        	    assignedRoute,
+	        	    assignedUserID
 	        	);
 
 	        VehicleDaoImp dao = new VehicleDaoImp();
@@ -62,4 +64,3 @@ public class RegisterVehicle extends HttpServlet{
 	        }
 	    }
 	}
-

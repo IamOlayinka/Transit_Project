@@ -1,12 +1,14 @@
 <%@ page session="true"%>
-<%@ page import="DTOs.UserDTO"%>
-<%
-    UserDTO user = (UserDTO) session.getAttribute("user");
-    if (user == null) {
-        response.sendRedirect("login.jsp");
-        return;
-    }
-%>
+<%@ page import="DTOs.UserDTO" %>
+
+    <%
+	UserDTO user = (UserDTO) session.getAttribute("user");
+	if (user == null) {
+	    response.sendRedirect("login.jsp");
+	    return;
+	}
+	String role = user.getUserType(); 
+	%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -110,8 +112,19 @@ to {
 		<h1>Welcome Back,</h1>
 		<div class="user-name"><%= user.getName() %></div>
 		<br>
-		<br> <a href="DashboardServlet" class="btn btn-primary">Go to
-			Dashboard</a> <a href="logout" class="btn btn-outline">Logout</a>
+		<br>
+		<%
+			if ("Manager".equals(role)) {
+		%> 
+		    <a href="ManagerDashboardServlet" class="btn btn-primary">Go to Dashboard</a>
+		<%
+		} else if ("Operator".equals(role)) {
+		%>
+		    <a href="OperatorDashboardServlet" class="btn btn-primary">Go to Dashboard</a>
+		<%
+		}
+		%>
+		 <a href="logout" class="btn btn-outline">Logout</a>
 	</div>
 </body>
 </html>

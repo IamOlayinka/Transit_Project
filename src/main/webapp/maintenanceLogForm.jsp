@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+
+
+
 <html>
 <head>
 <title>Add Maintenance Schedule</title>
@@ -63,7 +66,7 @@ input[type="submit"]:hover {
 </style>
 </head>
 <body>
-	<%@ include file="header.jsp"%>
+	<%@ include file="transitManagerHeader.jsp"%>
 	<div class="main-content">
 		<div class="form-container">
 			<h2>Add Maintenance Schedule</h2>
